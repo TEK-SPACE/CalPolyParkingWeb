@@ -1,0 +1,95 @@
+Getting env variables for app cp-parking-process-api in org Predix_Builders_Hack / space Cal Poly SLO as joe.durand3@gmail.com...
+OK
+
+System-Provided:
+{
+ "VCAP_SERVICES": {
+  "predix-timeseries": [
+   {
+    "credentials": {
+     "ingest": {
+      "uri": "wss://gateway-predix-data-services.run.aws-usw02-pr.ice.predix.io/v1/stream/messages",
+      "zone-http-header-name": "Predix-Zone-Id",
+      "zone-http-header-value": "79be3bb8-e7d3-4b7f-857b-7fd4ab37f663",
+      "zone-token-scopes": [
+       "timeseries.zones.79be3bb8-e7d3-4b7f-857b-7fd4ab37f663.user",
+       "timeseries.zones.79be3bb8-e7d3-4b7f-857b-7fd4ab37f663.ingest"
+      ]
+     },
+     "query": {
+      "uri": "https://time-series-store-predix.run.aws-usw02-pr.ice.predix.io/v1/datapoints",
+      "zone-http-header-name": "Predix-Zone-Id",
+      "zone-http-header-value": "79be3bb8-e7d3-4b7f-857b-7fd4ab37f663",
+      "zone-token-scopes": [
+       "timeseries.zones.79be3bb8-e7d3-4b7f-857b-7fd4ab37f663.user",
+       "timeseries.zones.79be3bb8-e7d3-4b7f-857b-7fd4ab37f663.query"
+      ]
+     }
+    },
+    "label": "predix-timeseries",
+    "name": "parking-timeseries",
+    "plan": "Free",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [
+     "timeseries",
+     "time-series",
+     "time series"
+    ],
+    "volume_mounts": []
+   }
+  ],
+  "predix-uaa": [
+   {
+    "credentials": {
+     "dashboardUrl": "https://uaa-dashboard.run.aws-usw02-pr.ice.predix.io/#/login/9a6043f4-f480-4fa6-a050-77fc3c37a943",
+     "issuerId": "https://9a6043f4-f480-4fa6-a050-77fc3c37a943.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token",
+     "subdomain": "9a6043f4-f480-4fa6-a050-77fc3c37a943",
+     "uri": "https://9a6043f4-f480-4fa6-a050-77fc3c37a943.predix-uaa.run.aws-usw02-pr.ice.predix.io",
+     "zone": {
+      "http-header-name": "X-Identity-Zone-Id",
+      "http-header-value": "9a6043f4-f480-4fa6-a050-77fc3c37a943"
+     }
+    },
+    "label": "predix-uaa",
+    "name": "parking-uaa",
+    "plan": "Free",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [],
+    "volume_mounts": []
+   }
+  ]
+ }
+}
+
+{
+ "VCAP_APPLICATION": {
+  "application_id": "7474572e-b9ae-44bc-a9e1-9467dd06fcb1",
+  "application_name": "cp-parking-process-api",
+  "application_uris": [
+   "cp-parking-process-api.run.aws-usw02-pr.ice.predix.io"
+  ],
+  "application_version": "5cab548f-2025-444c-bc35-a6eec0184b3f",
+  "limits": {
+   "disk": 1024,
+   "fds": 16384,
+   "mem": 512
+  },
+  "name": "cp-parking-process-api",
+  "space_id": "cd7ed74f-3a77-466d-838f-1c9692052664",
+  "space_name": "Cal Poly SLO",
+  "uris": [
+   "cp-parking-process-api.run.aws-usw02-pr.ice.predix.io"
+  ],
+  "users": null,
+  "version": "5cab548f-2025-444c-bc35-a6eec0184b3f"
+ }
+}
+
+No user-defined env variables have been set
+
+No running env variables have been set
+
+No staging env variables have been set
+
