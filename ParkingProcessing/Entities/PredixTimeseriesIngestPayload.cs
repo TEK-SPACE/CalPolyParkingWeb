@@ -8,7 +8,7 @@ namespace ParkingProcessing.Entities
     public class PredixTimeseriesIngestPayload
     {
         public string MessageId { get; set; }
-        public List<List<object>> DataPoints { get; set; }
+        public List<Tuple<DateTime, Object, int>> DataPoints { get; set; }
         public IDictionary<string, string> Attributes { get; set; } 
     }
 }

@@ -66,7 +66,7 @@ namespace ParkingProcessing.Helpers
         {
             return new JsonSerializerSettings
             {
-                DateFormatHandling = DateFormatHandling.MicrosoftDateFormat,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore
             };

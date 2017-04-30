@@ -4,5 +4,5 @@
      memory: 512M
      stack: cflinuxfs2
      services:
-      - parking-timeseries
+      - cp-parking-timeseries
       - parking-uaa

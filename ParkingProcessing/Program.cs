@@ -16,7 +16,7 @@ namespace ParkingProcessing
     {
         public static void Main(string[] args)
         {
-            PseudoLoggingService.Log("It's alive!");
+            PseudoLoggingService.Log("Application", "It's alive!");
 
             var config = new ConfigurationBuilder()
                 .AddCommandLine(args)
@@ -43,14 +43,15 @@ namespace ParkingProcessing
             {
                 await AuthenticationService.Instance.Initialize();
                 await TimeseriesService.Instance.Initialize();
-                PseudoLoggingService.Log("Initialization Completed. System Ready.");
+                PseudoLoggingService.Log("Application", "Initialization Completed. System Ready.");
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log(e);
+                PseudoLoggingService.Log("Application", e);
             }
 
         }
+
 
 
     }

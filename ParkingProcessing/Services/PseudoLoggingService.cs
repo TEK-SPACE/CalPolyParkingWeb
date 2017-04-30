@@ -22,9 +22,9 @@ namespace ParkingProcessing
         /// Logs the string.
         /// </summary>
         /// <param name="eventString">The event string.</param>
-        public static void Log(string eventString)
+        public static void Log(string source, string eventString)
         {
-            eventString = DateTime.Now + " : " + eventString;
+            eventString = DateTime.Now.ToLocalTime() + " - " + source + " : " + eventString;
             Instance._events = Instance._events.Append(eventString);
         }
 
@@ -32,11 +32,11 @@ namespace ParkingProcessing
         /// Logs the array of strings.
         /// </summary>
         /// <param name="eventStrings"></param>
-        public static void Log(string[] eventStrings)
+        public static void Log(string source, string[] eventStrings)
         {
             foreach (string s in eventStrings)
             {
-                Log(s);
+                Log(source, s);
             }
         }
 
@@ -44,11 +44,11 @@ namespace ParkingProcessing
         /// Logs the dictionary.
         /// </summary>
         /// <param name="dictionary"></param>
-        public static void Log(System.Collections.IDictionary dictionary)
+        public static void Log(string source, System.Collections.IDictionary dictionary)
         {
             foreach (object key in dictionary.Keys)
             {
-                Log(key.ToString() + " : " + dictionary[key].ToString());
+                Log(source, key.ToString() + " : " + dictionary[key].ToString());
             }
 
         }
@@ -57,9 +57,9 @@ namespace ParkingProcessing
         /// Logs the exception.
         /// </summary>
         /// <param name="e"></param>
-        public static void Log(Exception e)
+        public static void Log(string source, Exception e)
         {
-            Log("EXCEPTION: Message is " + e.Message + ", Source is " + e.Source);
+            Log(source, "EXCEPTION: Message is " + e.Message + ", Source is " + e.Source);
         }
 
         /// <summary>

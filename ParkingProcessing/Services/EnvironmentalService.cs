@@ -27,7 +27,7 @@ namespace ParkingProcessing.Services
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log(e);
+                PseudoLoggingService.Log("EnvironmentalService", e);
             }
 
             return null;
@@ -47,7 +47,7 @@ namespace ParkingProcessing.Services
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log(e);
+                PseudoLoggingService.Log("EnvironmentalService", e);
             }
 
             return null;

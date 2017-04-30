@@ -10,8 +10,8 @@ using ParkingProcessing.Services;
 
 namespace ParkingProcessing.Controllers
 {
-    [Route("api/processing")]
-    public class ProcessingController : Controller
+    [Route("api/configure")]
+    public class ConfigurationController : Controller
     {
         // GET api/values
         [HttpGet]
@@ -21,20 +21,14 @@ namespace ParkingProcessing.Controllers
         }
 
         // POST api/values
-        //[Route("{testValue}")]
-        public IActionResult Post([FromBody]ParkingLotData data)//, string testValue)
+        [HttpPost]
+        public IActionResult Post([FromBody]ParkingLotData data)
         {
-            Boolean configRequired = false;
-            //if (!Boolean.TryParse(testValue, out configRequired))
-            {
-          //      PseudoLoggingService.Log("ProcessingController", "Configuration request is defaulting to false");
-            }
-            
             try
             {
                 ProcessingService.Instance.AcceptParkingLotData(data);
                 PseudoLoggingService.Log("ProcessingController", "Spots " + data.ParkingSpots.First().id + " - " + data.ParkingSpots.Last().id + " accepted.");
-                return Ok(); //value: configRequired);
+                return Json("testing 123!");
             }
             catch (Exception e)
             {

@@ -24,7 +24,7 @@ namespace ParkingProcessing.Services
         /// Initializes the instance.
         /// </summary>
         /// <returns></returns>
-        public static async Task<bool> Initialize()
+        public async Task<bool> Initialize()
         {
             var result = false;
             try
@@ -34,7 +34,7 @@ namespace ParkingProcessing.Services
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log(e);
+                PseudoLoggingService.Log("AuthenticationService", e);
             }
             return result;
         }
@@ -59,11 +59,11 @@ namespace ParkingProcessing.Services
             if (response.Success)
             {
                 _token = response.AccessToken;
-                PseudoLoggingService.Log("UAA Access Token Granted.");
+                PseudoLoggingService.Log("AuthenticationService", "UAA Access Token Granted.");
             }
             else
             {
-                PseudoLoggingService.Log("ERROR: AuthenticationService failed to authenticate.");
+                PseudoLoggingService.Log("AuthenticationService", "ERROR: AuthenticationService failed to authenticate.");
             }
             return response.Success;
         }

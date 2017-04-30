@@ -17,6 +17,10 @@ namespace ParkingProcessing.Entities
 
         public string Origin { get; set; }
 
-        public PredixTimeseriesIngestHeaders(AuthenticationService authService, PredixUaaService  PredixVcapApplication application)
+        public PredixTimeseriesIngestHeaders(AuthenticationService authService, PredixUaaService service,
+            PredixVcapApplication application)
+        {
+            
+        }
     }
 }
