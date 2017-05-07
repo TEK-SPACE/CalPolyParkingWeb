@@ -8,6 +8,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Local Debug|AnyCPU'" />
 
   <ItemGroup>
+    <Compile Remove="Services\DifferentialProcessingService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\index.html" />
   </ItemGroup>
   <ItemGroup>

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ParkingProcessing.Entities
+namespace ParkingProcessing.Entities.Parking
 {
-    public class ParkingLotData
+    public class ParkingLot
     {
         public string ParkingLotId { get; set; }
 

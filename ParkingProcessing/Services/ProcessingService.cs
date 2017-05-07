@@ -5,18 +5,20 @@ using System.Threading.Tasks;
 using ParkingProcessing.Entities;
 using ParkingProcessing.Helpers;
 
+using ParkingProcessing.Entities.Parking;
+
 namespace ParkingProcessing.Services
 {
     public class ProcessingService
     {
         public static ProcessingService Instance = new ProcessingService();
-        private List<ParkingLotData> dataQueue = new List<ParkingLotData>();
+        private List<ParkingLot> dataQueue = new List<ParkingLot>();
 
         private ProcessingService()
         {
         }
 
-        public void AcceptParkingLotData(ParkingLotData datapoint)
+        public void AcceptParkingLotData(ParkingLot datapoint)
         {
             dataQueue.Add(datapoint);
 

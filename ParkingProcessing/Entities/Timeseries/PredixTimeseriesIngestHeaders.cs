@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ParkingProcessing.Services;
 
-namespace ParkingProcessing.Entities
+namespace ParkingProcessing.Entities.Timeseries
 {
     public class PredixTimeseriesIngestHeaders
     {
@@ -16,11 +16,5 @@ namespace ParkingProcessing.Entities
         public string PredixZoneId { get; set; }
 
         public string Origin { get; set; }
-
-        public PredixTimeseriesIngestHeaders(AuthenticationService authService, PredixUaaService service,
-            PredixVcapApplication application)
-        {
-            
-        }
     }
 }

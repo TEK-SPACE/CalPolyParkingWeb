@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ParkingProcessing.Entities
+namespace ParkingProcessing.Entities.Uaa
 {
     public class PredixUaaService
     {

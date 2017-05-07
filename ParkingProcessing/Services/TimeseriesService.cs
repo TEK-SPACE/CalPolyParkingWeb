@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
+using ParkingProcessing.Entities.Timeseries;
+
 namespace ParkingProcessing.Services
 {
     public class TimeseriesService
@@ -25,15 +27,16 @@ namespace ParkingProcessing.Services
         public async Task<ClientWebSocket> OpenWebSocket()
         {
             _socket = new ClientWebSocket();
-            _socket.Options.KeepAliveInterval = TimeSpan.FromDays(0.5);
-            _socket.Options.SetRequestHeader(headerName: "predix-zone-id", headerValue: EnvironmentalService.PredixServices.PredixTimeSeries.First().Credentials.Ingest.ZoneHttpHeaderValue);
-            _socket.Options.SetRequestHeader(headerName: "authorization", headerValue: "Bearer " + AuthenticationService.GetAuthToken());
-            _socket.Options.SetRequestHeader(headerName: "Origin", headerValue: "https://" + EnvironmentalService.PredixApplication.ApplicationUris.First());
+            _socket.Options.KeepAliveInterval = TimeSpan.FromHours(1);
+            _socket.Options.SetRequestHeader(headerName: "predix-zone-id", headerValue: EnvironmentalService.TimeseriesService.Credentials.Ingest.ZoneHttpHeaderValue);
+            _socket.Options.SetRequestHeader(headerName: "authorization", headerValue: "Bearer " + await AuthenticationService.GetAuthToken());
+            _socket.Options.SetRequestHeader(headerName: "Origin",
+                headerValue: "https://" + EnvironmentalService.ApplicationUri);
             
             PseudoLoggingService.Log("TimeseriesService", "Attempting websocket connection...");
             try
             {
-                var uri = new Uri(uriString: EnvironmentalService.PredixServices.PredixTimeSeries[0].Credentials.Ingest.Uri, uriKind: UriKind.Absolute);
+                var uri = new Uri(uriString: EnvironmentalService.TimeseriesService.Credentials.Ingest.Uri, uriKind: UriKind.Absolute);
                 await _socket.ConnectAsync(uri, cancellationToken: CancellationToken.None);
                 PseudoLoggingService.Log("TimeseriesService", "Websocket status: " + _socket.State.ToString());
 

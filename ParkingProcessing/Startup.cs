@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.WebSockets;
+using ParkingProcessing.Controllers;
 using ParkingProcessing.Services;
 
 namespace ParkingProcessing
@@ -31,11 +32,15 @@ namespace ParkingProcessing
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
+            app.UseMvcWithDefaultRoute();
+
             app.UseStaticFiles();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-using ParkingProcessing.Entities;
+using ParkingProcessing.Entities.Parking;
 using ParkingProcessing.Services;
 
 namespace ParkingProcessing.Controllers
@@ -13,16 +13,14 @@ namespace ParkingProcessing.Controllers
     [Route("api/configure")]
     public class ConfigurationController : Controller
     {
-        // GET api/values
         [HttpGet]
         public string Get()
         {
             return "";
         }
 
-        // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]ParkingLotData data)
+        public IActionResult Post([FromBody]ParkingLot data)
         {
             try
             {

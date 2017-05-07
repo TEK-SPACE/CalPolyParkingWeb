@@ -11,7 +11,7 @@ namespace ParkingProcessing.Services
     {
         public static ConfigurationService Instance = new ConfigurationService();
 
-        public async void requestConfiguration(string identifier)
+        public void RequestConfiguration(string identifier)
         {
             
         }

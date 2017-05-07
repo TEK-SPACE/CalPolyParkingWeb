@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace ParkingProcessing.Entities
+namespace ParkingProcessing.Entities.Uaa
 {
     public class PredixUaaLoginRequest
     {

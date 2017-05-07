@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace ParkingProcessing.Entities
+namespace ParkingProcessing.Entities.Uaa
 {
     public class PredixUaaCredential
     {

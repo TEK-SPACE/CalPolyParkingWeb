@@ -7,7 +7,7 @@ namespace ParkingProcessing.Helpers
 {
     public static class StringHelpers
     {
-        public static string addParams(this string bbase, IDictionary<string,string> parameters)
+        public static string AddCURLParams(this string bbase, IDictionary<string,string> parameters)
         {
             var result = bbase + "?";
             foreach (string key in parameters.Keys)

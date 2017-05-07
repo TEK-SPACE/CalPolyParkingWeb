@@ -4,7 +4,11 @@ using System.Text;
 
 using Newtonsoft.Json;
 
-namespace ParkingProcessing.Entities
+using ParkingProcessing.Entities.Timeseries;
+using ParkingProcessing.Entities.Uaa;
+using ParkingProcessing.Entities.IeParking;
+
+namespace ParkingProcessing.Entities.Environment
 {
     public class PredixVcapServices
     {
@@ -16,5 +20,8 @@ namespace ParkingProcessing.Entities
 
         [JsonProperty("predix-timeseries")]
         public List<PredixTimeseriesService> PredixTimeSeries { get; set; }
+
+        [JsonProperty("ie-parking")]
+        public List<PredixIeParkingService> IeParking { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-using ParkingProcessing.Entities;
+using ParkingProcessing.Entities.Parking;
 using ParkingProcessing.Services;
 
 namespace ParkingProcessing.Controllers
@@ -13,22 +13,10 @@ namespace ParkingProcessing.Controllers
     [Route("api/processing")]
     public class ProcessingController : Controller
     {
-        // GET api/values
-        [HttpGet]
-        public string Get()
-        {
-            return "";
-        }
-
-        // POST api/values
         //[Route("{testValue}")]
-        public IActionResult Post([FromBody]ParkingLotData data)//, string testValue)
+        public IActionResult Post([FromBody]ParkingLot data)//, string testValue)
         {
             Boolean configRequired = false;
-            //if (!Boolean.TryParse(testValue, out configRequired))
-            {
-          //      PseudoLoggingService.Log("ProcessingController", "Configuration request is defaulting to false");
-            }
             
             try
             {
