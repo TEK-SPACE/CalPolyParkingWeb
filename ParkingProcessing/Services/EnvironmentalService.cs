@@ -11,6 +11,9 @@ using ParkingProcessing.Entities.IeParking;
 
 namespace ParkingProcessing.Services
 {
+    /// <summary>
+    /// Interface to the service environment to fetch configuration information.
+    /// </summary>
     public static class EnvironmentalService
     {
         private static readonly PredixVcapServices PredixServices = ParsePredixVcapServices();

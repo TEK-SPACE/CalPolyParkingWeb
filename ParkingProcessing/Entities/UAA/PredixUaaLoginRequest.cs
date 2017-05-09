@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace ParkingProcessing.Entities.Uaa
 {
+    /// <summary>
+    /// Predix Uaa Login Request.
+    /// </summary>
     public class PredixUaaLoginRequest
     {
         /// <summary>

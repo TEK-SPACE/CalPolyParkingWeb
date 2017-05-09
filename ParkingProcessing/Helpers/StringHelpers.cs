@@ -5,8 +5,17 @@ using System.Threading.Tasks;
 
 namespace ParkingProcessing.Helpers
 {
+    /// <summary>
+    /// Various string converter functions
+    /// </summary>
     public static class StringHelpers
     {
+        /// <summary>
+        /// Adds the CURL parameters.
+        /// </summary>
+        /// <param name="bbase">The bbase.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
         public static string AddCURLParams(this string bbase, IDictionary<string,string> parameters)
         {
             var result = bbase + "?";

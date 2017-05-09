@@ -7,9 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ParkingProcessing.Controllers
 {
+    /// <summary>
+    /// Access to the logging service.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("debug")]
     public class LoggingController : Controller
     {
+        /// <summary>
+        /// Gets the log.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public string Get()
         {

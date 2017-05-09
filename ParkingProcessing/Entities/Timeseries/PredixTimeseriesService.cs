@@ -5,8 +5,17 @@ using Newtonsoft.Json;
 
 namespace ParkingProcessing.Entities.Timeseries
 {
+    /// <summary>
+    /// Predix Timeseries Service
+    /// </summary>
     public class PredixTimeseriesService
     {
+        /// <summary>
+        /// Gets or sets the credentials.
+        /// </summary>
+        /// <value>
+        /// The credentials.
+        /// </value>
         public PredixTimeseriesCredentials Credentials { get; set; }
     }
 }

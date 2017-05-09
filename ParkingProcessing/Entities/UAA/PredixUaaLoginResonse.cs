@@ -6,7 +6,11 @@ using Newtonsoft.Json;
 
 namespace ParkingProcessing.Entities.Uaa
 {
-    public class PredixUaaLoginResonse : PredixBaseResponse
+    /// <summary>
+    /// Predix Uaa Login Reponse.
+    /// </summary>
+    /// <seealso cref="ParkingProcessing.Entities.PredixBaseResponse" />
+    public class PredixUaaLoginResponse : PredixBaseResponse
     {
 
         /// <summary>

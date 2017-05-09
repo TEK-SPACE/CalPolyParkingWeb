@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace ParkingProcessing.Entities.IeParking
 {
+    /// <summary>
+    /// Predix Ie Parking Asset Links.
+    /// </summary>
     public class PredixIeParkingAssetLinks
     {
         /// <summary>

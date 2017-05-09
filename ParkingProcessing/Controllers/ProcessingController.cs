@@ -10,18 +10,28 @@ using ParkingProcessing.Services;
 
 namespace ParkingProcessing.Controllers
 {
+    /// <summary>
+    /// Processing incoming sensor data.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/processing")]
     public class ProcessingController : Controller
     {
-        //[Route("{testValue}")]
-        public IActionResult Post([FromBody]ParkingLot data)//, string testValue)
+        /// <summary>
+        /// Posts the specified parking lot data.
+        /// </summary>
+        /// <param name="authorization">The authorization.</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Post([FromHeader]string authorization, [FromBody]ParkingLot data)
         {
             Boolean configRequired = false;
             
             try
             {
                 ProcessingService.Instance.AcceptParkingLotData(data);
-                PseudoLoggingService.Log("ProcessingController", "Spots " + data.ParkingSpots.First().id + " - " + data.ParkingSpots.Last().id + " accepted.");
+                PseudoLoggingService.Log("ProcessingController", "Spots " + data.ParkingSpots.First().Id + " - " + data.ParkingSpots.Last().Id + " accepted.");
                 return Ok(); //value: configRequired);
             }
             catch (Exception e)

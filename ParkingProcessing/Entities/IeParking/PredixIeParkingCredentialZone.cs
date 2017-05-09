@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 
 namespace ParkingProcessing.Entities.IeParking
 {
+    /// <summary>
+    /// Predix Ie Parking Credential Zone
+    /// </summary>
     public class PredixIeParkingCredentialZone
     {
         /// <summary>

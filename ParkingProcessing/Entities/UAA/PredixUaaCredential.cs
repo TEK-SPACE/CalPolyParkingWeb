@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 
 namespace ParkingProcessing.Entities.Uaa
 {
+    /// <summary>
+    /// Predix Uaa Credential
+    /// </summary>
     public class PredixUaaCredential
     {
         /// <summary>
@@ -39,7 +42,12 @@ namespace ParkingProcessing.Entities.Uaa
         /// </value>
         public PredixUaaZone Zone { get; set; }
 
-        
+        /// <summary>
+        /// Gets or sets the URI.
+        /// </summary>
+        /// <value>
+        /// The URI.
+        /// </value>
         public string Uri { get; set; }
     }
 }

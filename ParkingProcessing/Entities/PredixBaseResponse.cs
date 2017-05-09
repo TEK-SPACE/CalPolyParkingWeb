@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace ParkingProcessing.Entities
 {
+    /// <summary>
+    /// Predix Base Response.
+    /// </summary>
     public class PredixBaseResponse
     {
         /// <summary>

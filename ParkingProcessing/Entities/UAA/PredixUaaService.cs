@@ -4,6 +4,9 @@ using System.Text;
 
 namespace ParkingProcessing.Entities.Uaa
 {
+    /// <summary>
+    /// Predix Uaa Service
+    /// </summary>
     public class PredixUaaService
     {
         /// <summary>

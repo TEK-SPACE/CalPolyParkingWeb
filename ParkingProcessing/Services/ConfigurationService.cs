@@ -7,13 +7,14 @@ using ParkingProcessing.Helpers;
 
 namespace ParkingProcessing.Services
 {
+    /// <summary>
+    /// Manages configuration requests for custom sensors.
+    /// </summary>
     public class ConfigurationService
     {
+        /// <summary>
+        /// The instance of the Configuration Service instance.
+        /// </summary>
         public static ConfigurationService Instance = new ConfigurationService();
-
-        public void RequestConfiguration(string identifier)
-        {
-            
-        }
     }
 }

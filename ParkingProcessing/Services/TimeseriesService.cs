@@ -12,24 +12,41 @@ using ParkingProcessing.Entities.Timeseries;
 
 namespace ParkingProcessing.Services
 {
+    /// <summary>
+    /// Handles connections and ingestion of timeseries data to a Predix Timeseries instance.
+    /// </summary>
     public class TimeseriesService
     {
+        /// <summary>
+        /// Gets the Timeseries service instance.
+        /// </summary>
+        /// <value>
+        /// The instance.
+        /// </value>
         public static TimeseriesService Instance { get; } = new TimeseriesService();
         private ClientWebSocket _socket;
 
         private TimeseriesService() { }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        /// <returns></returns>
         public async Task Initialize()
         {
             await OpenWebSocket();
         }
 
+        /// <summary>
+        /// Opens a websocket to the Timeseries database.
+        /// </summary>
+        /// <returns></returns>
         public async Task<ClientWebSocket> OpenWebSocket()
         {
             _socket = new ClientWebSocket();
             _socket.Options.KeepAliveInterval = TimeSpan.FromHours(1);
             _socket.Options.SetRequestHeader(headerName: "predix-zone-id", headerValue: EnvironmentalService.TimeseriesService.Credentials.Ingest.ZoneHttpHeaderValue);
-            _socket.Options.SetRequestHeader(headerName: "authorization", headerValue: "Bearer " + await AuthenticationService.GetAuthToken());
+            _socket.Options.SetRequestHeader(headerName: "authorization", headerValue: "Bearer " + AuthenticationService.GetAuthToken());
             _socket.Options.SetRequestHeader(headerName: "Origin",
                 headerValue: "https://" + EnvironmentalService.ApplicationUri);
             
@@ -70,6 +87,10 @@ namespace ParkingProcessing.Services
             }
         }
 
+        /// <summary>
+        /// Ingests the data.
+        /// </summary>
+        /// <param name="payload">The payload.</param>
         public void IngestData(List<PredixTimeseriesIngestPayload> payload)
         {
             foreach (PredixTimeseriesIngestPayload load in payload)

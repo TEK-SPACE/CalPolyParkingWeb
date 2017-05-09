@@ -7,13 +7,20 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-
+using ParkingProcessing.Entities.IeParking;
 using ParkingProcessing.Services;
 
 namespace ParkingProcessing
 {
+    /// <summary>
+    /// The program.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Main method.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
             PseudoLoggingService.Log("Application", "It's alive!");
@@ -51,14 +58,16 @@ namespace ParkingProcessing
                 //UCSD:
                 //32.889313, -117.242800
                 //32.872085, -117.230891
-                var list = await  IeParkingIngestService.Instance.FindAssets(latitudeOne: 32.786062, longitudeOne: -117.254059,
-                    latitudeTwo: 32.613200, longitudeTwo: -116.959316);
+                var list = await  IeParkingIngestService.Instance.FindAssets(latitudeOne: 32.715675, longitudeOne: -117.161230,
+                    latitudeTwo: 32.708498, longitudeTwo: -117.151681);
 
                 PseudoLoggingService.Log("IEParking", "the following assets have been found:");
                 foreach (string asset in list)
                 {
                     PseudoLoggingService.Log("IEParking", asset);
                 }
+
+                await IeParkingIngestService.Instance.OpenConnection(list.First());
             }
             catch (Exception e)
             {

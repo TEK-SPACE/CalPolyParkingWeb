@@ -3,9 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
+    <PreBuildEvent></PreBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Local Debug|AnyCPU'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp1.1\.xml</DocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Services\DifferentialProcessingService.cs" />
@@ -31,6 +36,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
     <PackageReference Include="System.Net.WebSockets.Client" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>

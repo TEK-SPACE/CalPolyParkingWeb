@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ParkingProcessing.Entities.IeParking
 {
+    /// <summary>
+    /// Predix Ie Parking Search Result Embedded.
+    /// </summary>
     public class PredixIeParkingSearchResultEmbedded
     {
         /// <summary>

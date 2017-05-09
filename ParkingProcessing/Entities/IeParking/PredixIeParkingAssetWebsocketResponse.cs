@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+
 namespace ParkingProcessing.Entities.IeParking
 {
     /// <summary>
-    /// Predix Ie Parking Credential
+    /// Predix Ie Parking Asset Web Socket Response.
+    /// Contains an address to the websocket for the requested resource.
     /// </summary>
-    public class PredixIeParkingCredential
+    public class PredixIeParkingAssetWebsocketResponse
     {
         /// <summary>
         /// Gets or sets the URL.
@@ -19,19 +22,12 @@ namespace ParkingProcessing.Entities.IeParking
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the registered events.
         /// </summary>
         /// <value>
-        /// The name.
+        /// The registered events.
         /// </value>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the zone.
-        /// </summary>
-        /// <value>
-        /// The zone.
-        /// </value>
-        public PredixIeParkingCredentialZone Zone { get; set; }
+        [JsonProperty("registered_events")]
+        public string RegisteredEvents { get; set; }
     }
 }

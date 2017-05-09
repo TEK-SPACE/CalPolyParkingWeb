@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ParkingProcessing.Entities.Timeseries
 {
+    /// <summary>
+    /// Predix Timeseries Credential.
+    /// </summary>
     public class PredixTimeseriesCredentials
     {
         /// <summary>

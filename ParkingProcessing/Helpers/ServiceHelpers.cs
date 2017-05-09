@@ -17,29 +17,39 @@ namespace ParkingProcessing.Helpers
     {
         private static HttpClient _client = new HttpClient();
 
+
         /// <summary>
         /// Inquires the specified service.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="method">The method.</param>
         /// <param name="service">The service.</param>
+        /// <param name="request">The request.</param>
         /// <param name="methodName">Name of the method.</param>
-        /// <param name="request">The request object.</param>
+        /// <param name="headers">The headers.</param>
         /// <returns></returns>
-        public static async Task<T> SendAync<T>(HttpMethod method, string service, string methodName, object request, IEnumerable<Tuple<string, string>> headers = null)
+        public static async Task<T> SendAync<T>(HttpMethod method, string service, object request = null, string methodName = "", IEnumerable<Tuple<string, string>> headers = null)
         {
-            string json = JsonConvert.SerializeObject(request, GetSerializationSettings());
-            string result = await SendAsync(method, service, methodName, json, headers);
+            string requestString = "";
+
+            if (request != null)
+            {
+                requestString = JsonConvert.SerializeObject(request, GetSerializationSettings());
+            }
+
+            string result = await SendAsync(method, service, methodName, requestString, headers);
             return JsonConvert.DeserializeObject<T>(result, GetSerializationSettings());
         }
 
         /// <summary>
-        /// WCFs the inquiry asynchronous.
+        /// Sends a request with the specified parameters.
         /// </summary>
         /// <param name="methodRequestType">Type of the method request.</param>
         /// <param name="service">The service.</param>
         /// <param name="methodName">Name of the method.</param>
         /// <param name="content">The content.</param>
-        /// <returns>The result of the inquiry</returns>
+        /// <param name="headers">The headers.</param>
+        /// <returns></returns>
         private static async Task<string> SendAsync(HttpMethod methodRequestType, string service, string methodName,
             string content = "", IEnumerable<Tuple<string,string>> headers = null)
         {

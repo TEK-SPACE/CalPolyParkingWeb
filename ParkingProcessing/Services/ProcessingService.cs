@@ -9,15 +9,28 @@ using ParkingProcessing.Entities.Parking;
 
 namespace ParkingProcessing.Services
 {
+    /// <summary>
+    /// Processing incoming sensor data from sensors and GE Current APIs
+    /// </summary>
     public class ProcessingService
     {
+        /// <summary>
+        /// The instance of the processing service.
+        /// </summary>
         public static ProcessingService Instance = new ProcessingService();
         private List<ParkingLot> dataQueue = new List<ParkingLot>();
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="ProcessingService"/> class from being created.
+        /// </summary>
         private ProcessingService()
         {
         }
 
+        /// <summary>
+        /// Accepts the parking lot data.
+        /// </summary>
+        /// <param name="datapoint">The datapoint.</param>
         public void AcceptParkingLotData(ParkingLot datapoint)
         {
             dataQueue.Add(datapoint);

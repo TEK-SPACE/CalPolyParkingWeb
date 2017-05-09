@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-/// <summary>
-/// Joe's PseudoLoggingService, because CF + .Net = A Disaster
-/// Call one of the Log functions to log an event
-/// Send EventLog straight to the browser if you want.
-/// </summary>
+
 namespace ParkingProcessing
 {
+    /// <summary>
+    /// Makeshift logging service
+    /// </summary>
     public class PseudoLoggingService
     {
         private IEnumerable<string> _events = new List<string>();
@@ -19,19 +18,21 @@ namespace ParkingProcessing
         }
 
         /// <summary>
-        /// Logs the string.
+        /// Logs the specified message.
         /// </summary>
+        /// <param name="source">The source.</param>
         /// <param name="eventString">The event string.</param>
         public static void Log(string source, string eventString)
         {
-            eventString = DateTime.Now.ToLocalTime() + " - " + source + " : " + eventString;
+            eventString = DateTime.Now.AddHours(-7) + " - " + source + " : " + eventString;
             Instance._events = Instance._events.Append(eventString);
         }
 
         /// <summary>
-        /// Logs the array of strings.
+        /// Logs the specified source.
         /// </summary>
-        /// <param name="eventStrings"></param>
+        /// <param name="source">The source.</param>
+        /// <param name="eventStrings">The event strings.</param>
         public static void Log(string source, string[] eventStrings)
         {
             foreach (string s in eventStrings)
@@ -41,9 +42,10 @@ namespace ParkingProcessing
         }
 
         /// <summary>
-        /// Logs the dictionary.
+        /// Logs the specified dictionary.
         /// </summary>
-        /// <param name="dictionary"></param>
+        /// <param name="source">The source.</param>
+        /// <param name="dictionary">The dictionary.</param>
         public static void Log(string source, System.Collections.IDictionary dictionary)
         {
             foreach (object key in dictionary.Keys)
@@ -54,9 +56,10 @@ namespace ParkingProcessing
         }
 
         /// <summary>
-        /// Logs the exception.
+        /// Logs the specified exception.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="source">The source.</param>
+        /// <param name="e">The e.</param>
         public static void Log(string source, Exception e)
         {
             Log(source, "EXCEPTION: Message is " + e.Message + ", Source is " + e.Source);
