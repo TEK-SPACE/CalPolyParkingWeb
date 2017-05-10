@@ -35,11 +35,11 @@ namespace ParkingProcessing.Services
         {
             dataQueue.Add(datapoint);
 
-            if (dataQueue.Count() > 10)
+            if (dataQueue.Count() > 1)
             {
                 var payloads = DataHelpers.ParkingLotDataToPredixTimeseriesIngestPayload(dataQueue);
                 PseudoLoggingService.Log("ProcessingService", "Timeseries payloads generated: " + payloads.Count.ToString());
-                TimeseriesService.Instance.IngestData(payloads);
+                TimeseriesIngestService.Instance.IngestData(payloads).ConfigureAwait(false);
                 dataQueue.Clear();
             }
         }

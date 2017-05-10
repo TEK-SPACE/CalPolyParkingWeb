@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 
 using ParkingProcessing.Entities.Parking;
 using ParkingProcessing.Services;
+using ParkingProcessing.Entities.IeParking;
+using ParkingProcessing.Helpers;
 
 namespace ParkingProcessing.Controllers
 {
@@ -24,9 +26,14 @@ namespace ParkingProcessing.Controllers
         /// <param name="data">The data.</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post([FromHeader]string authorization, [FromBody]ParkingLot data)
+        public async Task<IActionResult> Post([FromHeader]string authorization, [FromBody]ParkingLot data)
         {
-            Boolean configRequired = false;
+            var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
+
+            if (!validToken)
+            {
+                //return Unauthorized();
+            }
             
             try
             {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-
+using Newtonsoft.Json.Converters;
 using ParkingProcessing.Entities.Timeseries;
 
 namespace ParkingProcessing.Services
@@ -15,7 +15,7 @@ namespace ParkingProcessing.Services
     /// <summary>
     /// Handles connections and ingestion of timeseries data to a Predix Timeseries instance.
     /// </summary>
-    public class TimeseriesService
+    public class TimeseriesIngestService
     {
         /// <summary>
         /// Gets the Timeseries service instance.
@@ -23,10 +23,10 @@ namespace ParkingProcessing.Services
         /// <value>
         /// The instance.
         /// </value>
-        public static TimeseriesService Instance { get; } = new TimeseriesService();
+        public static TimeseriesIngestService Instance { get; } = new TimeseriesIngestService();
         private ClientWebSocket _socket;
 
-        private TimeseriesService() { }
+        private TimeseriesIngestService() { }
 
         /// <summary>
         /// Initializes this instance.
@@ -47,8 +47,7 @@ namespace ParkingProcessing.Services
             _socket.Options.KeepAliveInterval = TimeSpan.FromHours(1);
             _socket.Options.SetRequestHeader(headerName: "predix-zone-id", headerValue: EnvironmentalService.TimeseriesService.Credentials.Ingest.ZoneHttpHeaderValue);
             _socket.Options.SetRequestHeader(headerName: "authorization", headerValue: "Bearer " + AuthenticationService.GetAuthToken());
-            _socket.Options.SetRequestHeader(headerName: "Origin",
-                headerValue: "https://" + EnvironmentalService.ApplicationUri);
+            _socket.Options.SetRequestHeader(headerName: "Origin", headerValue: "https://" + EnvironmentalService.ApplicationUri);
             
             PseudoLoggingService.Log("TimeseriesService", "Attempting websocket connection...");
             try
@@ -67,11 +66,13 @@ namespace ParkingProcessing.Services
             return null; 
         }
 
+        private ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4096]);
+
         /// <summary>
         /// Submits a timeseries ingestion payload.
         /// </summary>
         /// <param name="payload"></param>
-        private async void IngestData(PredixTimeseriesIngestPayload payload)
+        public async Task IngestData(PredixTimeseriesIngestPayload payload)
         {
             try
             {
@@ -79,7 +80,12 @@ namespace ParkingProcessing.Services
                 var payloadBytes = Encoding.ASCII.GetBytes(payloadJSON);
                 var payloadArraySegment = new ArraySegment<byte>(payloadBytes);
                 await _socket.SendAsync(payloadArraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
-                PseudoLoggingService.Log("Timeseries Service", "Payload sent!");
+                PseudoLoggingService.Log("TimeseriesService", "Payload sent!");
+
+                var result = await _socket.ReceiveAsync(buffer: buffer, cancellationToken: CancellationToken.None);
+                PseudoLoggingService.Log("TimeseriesService", "Response recieved:");
+                var str = Encoding.UTF8.GetString(buffer.ToArray(), 0, result.Count);
+                PseudoLoggingService.Log("TimeseriesService", str);
             }
             catch (Exception e)
             {
@@ -91,11 +97,11 @@ namespace ParkingProcessing.Services
         /// Ingests the data.
         /// </summary>
         /// <param name="payload">The payload.</param>
-        public void IngestData(List<PredixTimeseriesIngestPayload> payload)
+        public async Task IngestData(List<PredixTimeseriesIngestPayload> payload)
         {
             foreach (PredixTimeseriesIngestPayload load in payload)
             {
-                IngestData(load);
+                await IngestData(load);
             }
         }
     }

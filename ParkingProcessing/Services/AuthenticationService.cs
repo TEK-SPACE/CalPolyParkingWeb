@@ -117,18 +117,45 @@ namespace ParkingProcessing.Services
         /// Validates the token.
         /// </summary>
         /// <returns>Whether the token is valid or not</returns>
-        private async Task<bool> ValidateToken(string token)
+        public async Task<bool> ValidateToken(string token)
         {
-            Dictionary<string, string> args = new Dictionary<string, string>()
+
+            if (token == null)
             {
-                {"authorization", "Bearer" + token}
+                return false;
+            }
+
+            //authorize check token request
+            var headers = new Dictionary<string, string>()
+            {
+                {"authorization", "Basic " + Base64UrlEncode(Config.PredixUaaClientID + ":" + Config.PredixUaaClientSecret)},
             };
 
+            //CURL body
+            var parameterDictionary = new Dictionary<string, string>()
+            {
+                {"token", token},
+            };
+
+            //build request
             var request = _service.Credentials.Uri + "/check_token";
-            request = request.AddCURLParams(args);
-            var response = await ServiceHelpers.SendAync<PredixUaaValidateTokenResponse>(HttpMethod.Post, service: request, methodName: "", request: "");
+            request = StringHelpers.AddCURLParams(bbase: request, parameters: parameterDictionary);
+
+
+            var response = await ServiceHelpers.SendAync<PredixUaaValidateTokenResponse>(HttpMethod.Post, service: request, methodName: "", request: "", headers: headers);
             
+            //if no error, token is valid
             return response.Error == null;
+        }
+
+        private static string Base64UrlEncode(string input)
+        {
+            var inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+            // Special "url-safe" base64 encode.
+            return Convert.ToBase64String(inputBytes)
+                .Replace('+', '-')
+                .Replace('/', '_')
+                .Replace("=", "");
         }
     }
 }

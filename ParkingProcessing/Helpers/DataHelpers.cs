@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using ParkingProcessing.Entities.IeParking;
 using ParkingProcessing.Entities.Timeseries;
 using ParkingProcessing.Entities.Parking;
 
@@ -33,17 +33,25 @@ namespace ParkingProcessing.Helpers
                     {
                         payloads.Add(lookup, new PredixTimeseriesIngestPayload()
                         {
-                            Attributes = new Dictionary<string, string>()
+                            
+                            Body = new List<PredixTimeseriesIngestPayloadBody>()
                             {
-                                {"ParkingLotId", datapoint.ParkingLotId},
-                                {"ParkingSpotId", spot.Id }
+                                new PredixTimeseriesIngestPayloadBody()
+                                {
+                                    Name = "IN_USE",
+                                    Datapoints = new List<List<object>>(),
+                                    Attributes = new PredixTimeseriesIngestPayloadAttributes()
+                                    {
+                                        ParkingLotId = datapoint.ParkingLotId,
+                                        ParkingSpotId = spot.Id
+                                    }
+                                }
                             },
-                            DataPoints = new List<Tuple<DateTime, object, int>>(),
-                            MessageId = Guid.NewGuid().ToString()
+                            MessageId = DatetimeToEpochMs(datapoint.Timestamp).ToString()
                         });
                     }
 
-                    payloads[lookup].DataPoints.Add(new Tuple<DateTime, object, int>(datapoint.Timestamp, spot.Status, 0));
+                    payloads[lookup].Body.First().Datapoints.Add(new List<object>(){DatetimeToEpochMs(datapoint.Timestamp), spot.Status, 1});
                 }
             }
 
@@ -58,16 +66,62 @@ namespace ParkingProcessing.Helpers
         /// <returns></returns>
         public static List<PredixTimeseriesIngestPayload> ParkingSpotDataToPredixTimeseriesIngestPayloads(List<ParkingSpot> spots, DateTime timestamp)
         {
+            throw new NotImplementedException();
+
+#pragma warning disable CS0162 // Unreachable code detected
             var payloads = new List<PredixTimeseriesIngestPayload>();
+#pragma warning restore CS0162 // Unreachable code detected
 
             foreach (ParkingSpot data in spots)
             {
                 var payload = new PredixTimeseriesIngestPayload();
-                payload.DataPoints.Add(new Tuple<DateTime, object, int>(timestamp, data.Status, 0));
+                //payload.DataPoints.Add(new Tuple<DateTime, object, int>(timestamp, data.Status, 0));
                 payloads.Add(payload);
             }
 
             return payloads;
+        }
+
+        /// <summary>
+        /// Converts a Ie Parking Event to a Timeseries Ingest Payload.
+        /// </summary>
+        /// <param name="eventObj"></param>
+        /// <returns></returns>
+        public static PredixTimeseriesIngestPayload IeParkingEventToTimeseriesIngestPayload(
+            PredixIeParkingEvent eventObj)
+        {
+            var result = new PredixTimeseriesIngestPayload()
+            {
+                Body = new List<PredixTimeseriesIngestPayloadBody>()
+                {
+                    new PredixTimeseriesIngestPayloadBody()
+                    {
+                        Name = eventObj.DeviceId + ":" + eventObj.LocationId,
+                        Datapoints = new List<List<object>>()
+                        {
+                            new List<object>()
+                            {
+                                eventObj.Timestamp,
+                                eventObj.EventType == "PKIN",
+                                3
+                            }
+                        },
+                        Attributes = new PredixTimeseriesIngestPayloadAttributes()
+                        {
+                            ParkingLotId = eventObj.DeviceId,
+                            ParkingSpotId = eventObj.LocationId
+                        }
+                    }
+                }
+            };
+
+            return result;
+        }
+
+
+        private static long DatetimeToEpochMs(DateTime dateTime)
+        {
+            return (long) (dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
     }
 }

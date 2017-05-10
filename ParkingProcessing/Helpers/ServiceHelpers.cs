@@ -28,7 +28,7 @@ namespace ParkingProcessing.Helpers
         /// <param name="methodName">Name of the method.</param>
         /// <param name="headers">The headers.</param>
         /// <returns></returns>
-        public static async Task<T> SendAync<T>(HttpMethod method, string service, object request = null, string methodName = "", IEnumerable<Tuple<string, string>> headers = null)
+        public static async Task<T> SendAync<T>(HttpMethod method, string service, object request = null, string methodName = "", Dictionary<string, string> headers = null)
         {
             string requestString = "";
 
@@ -51,7 +51,7 @@ namespace ParkingProcessing.Helpers
         /// <param name="headers">The headers.</param>
         /// <returns></returns>
         private static async Task<string> SendAsync(HttpMethod methodRequestType, string service, string methodName,
-            string content = "", IEnumerable<Tuple<string,string>> headers = null)
+            string content = "", Dictionary<string,string> headers = null)
         {
             try
             {
@@ -63,9 +63,9 @@ namespace ParkingProcessing.Helpers
 
                 if (headers != null)
                 {
-                    foreach (var header in headers)
+                    foreach (var key in headers.Keys)
                     {
-                        request.Headers.Add(header.Item1, header.Item2);
+                        request.Headers.Add(key, headers[key]);
                     }
                 }
 

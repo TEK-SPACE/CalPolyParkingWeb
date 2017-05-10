@@ -1,5 +1,6 @@
 ﻿using ParkingProcessing.Entities;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -24,13 +25,32 @@ namespace ParkingProcessing.Services
         /// The instance of the Intelligent Environment Parking ingest service interface.
         /// </summary>
         public static IeParkingIngestService Instance { get; } = new IeParkingIngestService();
-        private ClientWebSocket _socket;
+        private ConcurrentDictionary<string, Tuple<ClientWebSocket, Task>> _sockets = new ConcurrentDictionary<string, Tuple<ClientWebSocket, Task>>();
         private List<PredixIeParkingAsset> _availableAssets;
-
-        private Task _streamTask;
 
         private IeParkingIngestService()
         {
+        }
+
+        /// <summary>
+        /// Initialize the ingestion service.
+        /// </summary>
+        /// <returns></returns>
+        public async Task Initialize()
+        {
+            //coordinates for San Diego area
+            var list = await IeParkingIngestService.Instance.FindAssets(latitudeOne: 32.715675, longitudeOne: -117.161230,
+                latitudeTwo: 32.708498, longitudeTwo: -117.151681);
+
+            PseudoLoggingService.Log("IEParking", "the following assets have been found:");
+            foreach (string asset in list)
+            {
+                PseudoLoggingService.Log("IEParking", asset);
+            }
+
+            await IeParkingIngestService.Instance.OpenConnection(list[0]);
+            await IeParkingIngestService.Instance.OpenConnection(list[1]);
+            await IeParkingIngestService.Instance.OpenConnection(list[2]);
         }
 
         /// <summary>
@@ -46,11 +66,12 @@ namespace ParkingProcessing.Services
             var request = EnvironmentalService.IeParkingService.Credentials.Url + "/v1/assets/search?";
             request += "bbox=" + latitudeOne + ":" + longitudeOne + ", " + latitudeTwo + ":" + longitudeTwo;
 
-            List<Tuple<string, string>> headers = new List<Tuple<string, string>>
+            var headers = new Dictionary<string, string>()
             {
-                new Tuple<string, string>("predix-zone-id", EnvironmentalService.IeParkingService.Credentials.Zone.HttpHeaderValue),
-                new Tuple<string, string>("Authorization", "Bearer " + AuthenticationService.GetAuthToken())
+                {"predix-zone-id", EnvironmentalService.IeParkingService.Credentials.Zone.HttpHeaderValue},
+                {"Authorization", "Bearer " + AuthenticationService.GetAuthToken()}
             };
+
             var result = await ServiceHelpers.SendAync<PredixIeParkingAssetSearchResult>(HttpMethod.Get, service: request,
                 request: "", methodName: "", headers: headers);
 
@@ -66,48 +87,72 @@ namespace ParkingProcessing.Services
         /// <param name="deviceid">The deviceid.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public async Task<ClientWebSocket> OpenConnection(string deviceid)
+        public async Task OpenConnection(string deviceid)
         {
             try
             {
                 var websocketAddress = await GetLiveEventWebsocketAddress(deviceid, "PKIN,PKOUT");
                 
-                _socket = new ClientWebSocket();
-                _socket.Options.KeepAliveInterval = TimeSpan.FromHours(1);
-                _socket.Options.SetRequestHeader(headerName: "predix-zone-id", headerValue: EnvironmentalService.IeParkingService.Credentials.Zone.HttpHeaderValue);
-                _socket.Options.SetRequestHeader(headerName: "authorization", headerValue: "Bearer " + AuthenticationService.GetAuthToken());
-                _socket.Options.SetRequestHeader(headerName: "Origin", headerValue: "https://" + EnvironmentalService.ApplicationUri);
+                var socket = new ClientWebSocket();
+                socket.Options.KeepAliveInterval = TimeSpan.FromHours(1);
+                socket.Options.SetRequestHeader(headerName: "predix-zone-id", headerValue: EnvironmentalService.IeParkingService.Credentials.Zone.HttpHeaderValue);
+                socket.Options.SetRequestHeader(headerName: "authorization", headerValue: "Bearer " + AuthenticationService.GetAuthToken());
+                socket.Options.SetRequestHeader(headerName: "Origin", headerValue: "https://" + EnvironmentalService.ApplicationUri);
 
-                PseudoLoggingService.Log("IeParkingIngestService", "Attempting websocket connection...");
+                PseudoLoggingService.Log("IeParkingIngestService", "Attempting websocket connection to device " + deviceid + "...");
                 var uri = new Uri(uriString: websocketAddress, uriKind: UriKind.Absolute);
-                await _socket.ConnectAsync(uri, cancellationToken: CancellationToken.None);
-                PseudoLoggingService.Log("IeParkingIngestService", "Websocket status: " + _socket.State.ToString());
+                await socket.ConnectAsync(uri, cancellationToken: CancellationToken.None);
+                PseudoLoggingService.Log("IeParkingIngestService", deviceid + " Websocket status: " + socket.State.ToString());
 
-                if (_socket.State == WebSocketState.Open)
+                if (socket.State == WebSocketState.Open)
                 {
-                    _streamTask = IngestLoop();
+                    _sockets[deviceid] = new Tuple<ClientWebSocket, Task>(socket, IngestLoop(deviceid: deviceid, socket: socket));
                 }
-
-                return _socket;
             }
             catch (Exception e)
             {
                 PseudoLoggingService.Log("IeParkingIngestService", e);
             }
-
-            return null;
         }
 
-        private ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4096]);
-
-        private async Task IngestLoop()
+        /// <summary>
+        /// Creates an ingest loop that terminates when the socket is closed.
+        /// </summary>
+        /// <param name="deviceid"></param>
+        /// <param name="socket"></param>
+        /// <returns></returns>
+        private async Task IngestLoop(string deviceid, ClientWebSocket socket)
         {
-            while (_socket.State == WebSocketState.Open)
-            {
-                var result = await _socket.ReceiveAsync(buffer: buffer, cancellationToken: CancellationToken.None);
+            ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[4096]);
 
-                PseudoLoggingService.Log("IeParkingIngestService", "Payload recieved. Size is " + result.Count);
+            while (socket.State == WebSocketState.Open)
+            {
+                try
+                {
+                    //wait for an event
+                    var result = await socket.ReceiveAsync(buffer: buffer, cancellationToken: CancellationToken.None);
+
+                    //convert buffer data into parking event
+                    var str = Encoding.UTF8.GetString(buffer.ToArray(), 0, result.Count);
+                    var parkingEvent = JsonConvert.DeserializeObject<PredixIeParkingEvent>(str);
+
+                    //if not a relevant event, skip it
+                    if (parkingEvent.EventType != "PKIN" && parkingEvent.EventType != "PKOUT")
+                    {
+                        break;
+                    }
+
+                    //convert the event to a timeseries payload and send it
+                    var timeseriesPayload = DataHelpers.IeParkingEventToTimeseriesIngestPayload(parkingEvent);
+                    await TimeseriesIngestService.Instance.IngestData(timeseriesPayload);
+                }
+                catch (Exception e)
+                {
+                    PseudoLoggingService.Log("IeParkingIngestService", e);
+                }
             }
+
+            PseudoLoggingService.Log("IeParkingIngestService", deviceid + " Websocket closed:" + socket.State);
         }
 
         /// <summary>
@@ -125,12 +170,10 @@ namespace ParkingProcessing.Services
             var serviceAddress = asset.Links.Self.Href.Replace(oldValue: "http://", newValue: "https://") + "/live-events?event-types=" + events;
 
             //add required headers
-            List<Tuple<string, string>> headers = new List<Tuple<string, string>>
+            var headers = new Dictionary<string, string>()
             {
-                new Tuple<string, string>("predix-zone-id",
-                EnvironmentalService.IeParkingService.Credentials.Zone.HttpHeaderValue),
-                new Tuple<string, string>("Authorization",
-                "Bearer " + AuthenticationService.GetAuthToken())
+                {"predix-zone-id", EnvironmentalService.IeParkingService.Credentials.Zone.HttpHeaderValue},
+                {"Authorization", "Bearer " + AuthenticationService.GetAuthToken()}
             };
 
             //send request
