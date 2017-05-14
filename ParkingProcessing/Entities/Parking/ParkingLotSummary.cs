@@ -41,5 +41,21 @@ namespace ParkingProcessing.Entities.Parking
         /// The parking spots taken.
         /// </value>
         public int ParkingSpotsTaken { get; set; }
+
+        /// <summary>
+        /// Gets or sets the oldest timestamp.
+        /// </summary>
+        /// <value>
+        /// The oldest timestamp.
+        /// </value>
+        public DateTime OldestTimestamp { get; set; } = DateTime.MaxValue;
+
+        /// <summary>
+        /// Gets or sets the newest timestamp.
+        /// </summary>
+        /// <value>
+        /// The newest timestamp.
+        /// </value>
+        public DateTime NewestTimestamp { get; set; } = DateTime.MinValue;
     }
 }

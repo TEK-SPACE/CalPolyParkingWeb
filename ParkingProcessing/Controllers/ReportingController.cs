@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 
 using ParkingProcessing.Entities.Parking;
 using ParkingProcessing.Services;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ParkingProcessing.Controllers
 {
@@ -45,7 +46,7 @@ namespace ParkingProcessing.Controllers
                 //get just the parking lot ids...
                 tags.ForEach((s =>
                 {
-                    lots.Add(Regex.Replace(input: s, pattern: @":[0-9a-zA-Z ]*", replacement: String.Empty));
+                    lots.Add(Regex.Replace(input: s, pattern: @":[0-9a-zA-Z- ]*", replacement: String.Empty));
                 }));
 
                 //get distinct ones
@@ -68,7 +69,7 @@ namespace ParkingProcessing.Controllers
         /// <param name="lotid"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{lotid}")]
+        [Route("parkinglot/{lotid}/summary")]
         [ProducesResponseType(typeof(ParkingLotSummary), 200)]
         public async Task<IActionResult> LotSummary([FromHeader] string authorization, string lotid)
         {
@@ -81,16 +82,8 @@ namespace ParkingProcessing.Controllers
 
             try
             {
-                var test = new ParkingLotSummary()
-                {
-                    ParkingLotId = "H16",
-                    ParkingSpotsFree = 5,
-                    ParkingSpotsTaken = 15,
-                    ParkingSpotsTotal = 20
-                };
-
-
-                return Ok(test);
+                var summary = await TimeseriesQueryService.Instance.GetLotSummary(lotid: lotid);
+                return Ok(summary);
             }
             catch (Exception e)
             {
@@ -100,5 +93,45 @@ namespace ParkingProcessing.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authorization"></param>
+        /// <param name="lotid"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("parkinglot/{lotid}/detail")]
+        [ProducesResponseType(typeof(ParkingLotDetail), 200)]
+        public async Task<IActionResult> LotDetail([FromHeader] string authorization, string lotid)
+        {
+            var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
+
+            if (!validToken)
+            {
+                //return Unauthorized();
+            }
+
+            try
+            {
+                var summary = await TimeseriesQueryService.Instance.GetLotDetail	(lotid: lotid);
+                return Ok(summary);
+            }
+            catch (Exception e)
+            {
+                PseudoLoggingService.Log("ReportingController", e);
+            }
+
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// Add a header to help the UI team out.
+        /// </summary>
+        /// <param name="context"></param>
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            context.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            base.OnActionExecuted(context);
+        }
     }
 }

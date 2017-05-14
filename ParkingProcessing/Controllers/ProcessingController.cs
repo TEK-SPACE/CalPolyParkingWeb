@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-
+using ParkingProcessing.Entities;
 using ParkingProcessing.Entities.Parking;
 using ParkingProcessing.Services;
 using ParkingProcessing.Entities.IeParking;
@@ -17,6 +17,7 @@ namespace ParkingProcessing.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/processing")]
+    [ProducesResponseType(typeof(ProcessingResponse), 200)]
     public class ProcessingController : Controller
     {
         /// <summary>
@@ -38,8 +39,12 @@ namespace ParkingProcessing.Controllers
             try
             {
                 ProcessingService.Instance.AcceptParkingLotData(data);
+
                 PseudoLoggingService.Log("ProcessingController", "Spots " + data.ParkingSpots.First().Id + " - " + data.ParkingSpots.Last().Id + " accepted.");
-                return Ok(); //value: configRequired);
+
+                var configresult = ConfigurationService.Instance.ServicePassiveConfigurationPolling(data.SensorId);
+
+                return Ok(configresult); //value: configRequired);
             }
             catch (Exception e)
             {

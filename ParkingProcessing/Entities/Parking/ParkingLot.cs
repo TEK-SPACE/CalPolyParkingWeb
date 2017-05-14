@@ -19,6 +19,14 @@ namespace ParkingProcessing.Entities.Parking
         public string ParkingLotId { get; set; }
 
         /// <summary>
+        /// Gets or sets the sensor identifier.
+        /// </summary>
+        /// <value>
+        /// The sensor identifier.
+        /// </value>
+        public string SensorId { get; set; }
+
+        /// <summary>
         /// Gets or sets the timestamp.
         /// </summary>
         /// <value>

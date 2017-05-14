@@ -20,7 +20,7 @@ namespace ParkingProcessing.Helpers
         /// <returns></returns>
         public static List<PredixTimeseriesIngestPayload> ParkingLotDataToPredixTimeseriesIngestPayload(List<ParkingLot> datapoints)
         {
-            var payloads = new Dictionary<Tuple<string, string>, PredixTimeseriesIngestPayload> ();
+            var payloads = new Dictionary<Tuple<string, string>, PredixTimeseriesIngestPayload>();
 
             foreach (ParkingLot datapoint in datapoints)
             {
@@ -33,7 +33,7 @@ namespace ParkingProcessing.Helpers
                     {
                         payloads.Add(lookup, new PredixTimeseriesIngestPayload()
                         {
-                            
+
                             Body = new List<PredixTimeseriesIngestPayloadBody>()
                             {
                                 new PredixTimeseriesIngestPayloadBody()
@@ -51,7 +51,7 @@ namespace ParkingProcessing.Helpers
                         });
                     }
 
-                    payloads[lookup].Body.First().Datapoints.Add(new List<object>(){DatetimeToEpochMs(datapoint.Timestamp), spot.Status, 1});
+                    payloads[lookup].Body.First().Datapoints.Add(new List<object>() { DatetimeToEpochMs(datapoint.Timestamp), spot.Status, 1 });
                 }
             }
 
@@ -121,7 +121,26 @@ namespace ParkingProcessing.Helpers
 
         private static long DatetimeToEpochMs(DateTime dateTime)
         {
-            return (long) (dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            return (long)(dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
+
+        /// <summary>
+        /// The unix epoch date time.
+        /// </summary>
+        private static DateTime unixEpochDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+
+        /// <summary>
+        /// Converts a Unix Epoch timestamp (1970) to datetime.
+        /// </summary>
+        /// <param name="unixTimeStamp">The unix time stamp.</param>
+        /// <returns></returns>
+        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            var result = unixEpochDateTime.AddMilliseconds(unixTimeStamp).ToLocalTime();
+            return result;
+        }
+
+
+
     }
 }

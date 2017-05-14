@@ -51,6 +51,7 @@ namespace ParkingProcessing
                 await AuthenticationService.Instance.Initialize();
                 await TimeseriesIngestService.Instance.Initialize();
                 await IeParkingIngestService.Instance.Initialize();
+                await KeyValueDatabaseService.Instance.Initialize();
                 PseudoLoggingService.Log("Application", "Initialization Completed. System Ready.");
             }
             catch (Exception e)

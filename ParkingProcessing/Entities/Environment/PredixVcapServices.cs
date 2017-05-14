@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using ParkingProcessing.Entities.Timeseries;
 using ParkingProcessing.Entities.Uaa;
 using ParkingProcessing.Entities.IeParking;
+using ParkingProcessing.Entities.Redis;
 
 namespace ParkingProcessing.Entities.Environment
 {
@@ -50,5 +51,14 @@ namespace ParkingProcessing.Entities.Environment
         /// </value>
         [JsonProperty("ie-parking")]
         public List<PredixIeParkingService> IeParking { get; set; }
+
+        /// <summary>
+        /// Gets or sets the redis11.
+        /// </summary>
+        /// <value>
+        /// The redis11.
+        /// </value>
+        [JsonProperty("redis-11")]
+        public List<RedisService> Redis11 { get; set; }
     }
 }

@@ -28,6 +28,8 @@ namespace ParkingProcessing.Services
         private ConcurrentDictionary<string, Tuple<ClientWebSocket, Task>> _sockets = new ConcurrentDictionary<string, Tuple<ClientWebSocket, Task>>();
         private List<PredixIeParkingAsset> _availableAssets;
 
+        private static string SIMULATEDLOTNAME = "GE1";
+
         private IeParkingIngestService()
         {
         }
@@ -39,18 +41,15 @@ namespace ParkingProcessing.Services
         public async Task Initialize()
         {
             //coordinates for San Diego area
-            var list = await IeParkingIngestService.Instance.FindAssets(latitudeOne: 32.715675, longitudeOne: -117.161230,
-                latitudeTwo: 32.708498, longitudeTwo: -117.151681);
+            var list = await IeParkingIngestService.Instance.FindAssets(latitudeOne: 32.955702, longitudeOne: -117.476807,
+                latitudeTwo: 32.535005, longitudeTwo: -116.879700);
 
             PseudoLoggingService.Log("IEParking", "the following assets have been found:");
             foreach (string asset in list)
             {
                 PseudoLoggingService.Log("IEParking", asset);
+                await IeParkingIngestService.Instance.OpenConnection(asset);
             }
-
-            await IeParkingIngestService.Instance.OpenConnection(list[0]);
-            await IeParkingIngestService.Instance.OpenConnection(list[1]);
-            await IeParkingIngestService.Instance.OpenConnection(list[2]);
         }
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace ParkingProcessing.Services
         public async Task<List<string>> FindAssets(double latitudeOne, double longitudeOne, double latitudeTwo, double longitudeTwo)
         {
             var request = EnvironmentalService.IeParkingService.Credentials.Url + "/v1/assets/search?";
-            request += "bbox=" + latitudeOne + ":" + longitudeOne + ", " + latitudeTwo + ":" + longitudeTwo;
+            request += "size=100&event-type=PKIN,PKOUT&bbox=" + latitudeOne + ":" + longitudeOne + ", " + latitudeTwo + ":" + longitudeTwo;
 
             var headers = new Dictionary<string, string>()
             {
@@ -141,6 +140,10 @@ namespace ParkingProcessing.Services
                     {
                         break;
                     }
+
+                    //mask all parking events to a simulated lot
+                    parkingEvent.DeviceId = SIMULATEDLOTNAME;
+
 
                     //convert the event to a timeseries payload and send it
                     var timeseriesPayload = DataHelpers.IeParkingEventToTimeseriesIngestPayload(parkingEvent);

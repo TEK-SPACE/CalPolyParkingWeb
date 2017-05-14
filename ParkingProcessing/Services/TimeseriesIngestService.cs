@@ -77,15 +77,17 @@ namespace ParkingProcessing.Services
             try
             {
                 var payloadJSON = JsonConvert.SerializeObject(payload);
+                PseudoLoggingService.Log("TimeseriesService", "ingesting payload: " + payloadJSON);
                 var payloadBytes = Encoding.ASCII.GetBytes(payloadJSON);
                 var payloadArraySegment = new ArraySegment<byte>(payloadBytes);
-                await _socket.SendAsync(payloadArraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
-                PseudoLoggingService.Log("TimeseriesService", "Payload sent!");
 
-                var result = await _socket.ReceiveAsync(buffer: buffer, cancellationToken: CancellationToken.None);
-                PseudoLoggingService.Log("TimeseriesService", "Response recieved:");
-                var str = Encoding.UTF8.GetString(buffer.ToArray(), 0, result.Count);
-                PseudoLoggingService.Log("TimeseriesService", str);
+                if (_socket.State != WebSocketState.Open)
+                {
+                    await OpenWebSocket();
+                }
+
+                await _socket.SendAsync(payloadArraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
+                await _socket.ReceiveAsync(buffer: buffer, cancellationToken: CancellationToken.None);
             }
             catch (Exception e)
             {

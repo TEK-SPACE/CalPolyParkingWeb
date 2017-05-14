@@ -24,6 +24,11 @@ namespace ParkingProcessing
         /// <param name="eventString">The event string.</param>
         public static void Log(string source, string eventString)
         {
+            if (Instance._events.Count() > 500)
+            {
+                Instance._events = new List<string>();
+            }
+
             eventString = DateTime.Now.AddHours(-7) + " - " + source + " : " + eventString;
             Instance._events = Instance._events.Append(eventString);
         }

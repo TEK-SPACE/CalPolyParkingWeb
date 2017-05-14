@@ -36,6 +36,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="StackExchange.Redis" Version="1.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
     <PackageReference Include="System.Net.WebSockets.Client" Version="4.3.0" />
   </ItemGroup>

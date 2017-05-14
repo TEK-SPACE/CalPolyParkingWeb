@@ -8,6 +8,7 @@ using ParkingProcessing.Entities.Environment;
 using ParkingProcessing.Entities.Uaa;
 using ParkingProcessing.Entities.Timeseries;
 using ParkingProcessing.Entities.IeParking;
+using ParkingProcessing.Entities.Redis;
 
 namespace ParkingProcessing.Services
 {
@@ -77,6 +78,25 @@ namespace ParkingProcessing.Services
                 }
 
                 return PredixServices.IeParking[0];
+            }
+        }
+
+        /// <summary>
+        /// Gets the redis service.
+        /// </summary>
+        /// <value>
+        /// The redis service.
+        /// </value>
+        public static RedisService RedisService
+        {
+            get
+            {
+                if (PredixServices.Redis11.Count != 1)
+                {
+                    PseudoLoggingService.Log("EnvironmentalService", "There is not exactly one Redis service specified.");
+                }
+
+                return PredixServices.Redis11[0];
             }
         }
 
