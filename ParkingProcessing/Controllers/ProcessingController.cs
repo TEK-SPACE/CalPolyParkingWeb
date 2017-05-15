@@ -42,7 +42,7 @@ namespace ParkingProcessing.Controllers
 
                 PseudoLoggingService.Log("ProcessingController", "Spots " + data.ParkingSpots.First().Id + " - " + data.ParkingSpots.Last().Id + " accepted.");
 
-                var configresult = ConfigurationService.Instance.ServicePassiveConfigurationPolling(data.SensorId);
+                var configresult = SensorConfigurationService.Instance.ServicePassiveConfigurationPolling(data.SensorId);
 
                 return Ok(configresult); //value: configRequired);
             }

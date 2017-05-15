@@ -3,53 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
+using ParkingProcessing.Entities.Redis;
 using StackExchange.Redis;
 
 namespace ParkingProcessing.Services
 {
     /// <summary>
-    /// Key Value Database Service
+    /// Key Value Database Servicev
     /// </summary>
-    public class KeyValueDatabaseService
+    public class RedisDatabaseService
     {
-        /// <summary>
-        /// The instance
-        /// </summary>
-        public static KeyValueDatabaseService Instance = new KeyValueDatabaseService();
 
-        private ConnectionMultiplexer _redis;
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="KeyValueDatabaseService"/> class from being created.
-        /// </summary>
-        private KeyValueDatabaseService()
-        {
-        }
+        protected ConnectionMultiplexer _redis;
 
         /// <summary>
         /// Initialize the Key Value Database Service.
         /// </summary>
         /// <returns></returns>
-        public async Task Initialize()
+        protected async Task Initialize(RedisService service)
         {
-            var creds = EnvironmentalService.RedisService.Credentials;
-            Int32.TryParse(EnvironmentalService.RedisService.Credentials.Port, out var port);
+            var creds = service.Credentials;
+            Int32.TryParse(service.Credentials.Port, out var port);
 
             ConfigurationOptions config = new ConfigurationOptions
             {
                 EndPoints =
                 {
-                    { EnvironmentalService.RedisService.Credentials.Host, port }
+                    { service.Credentials.Host, port }
                 },
                 DefaultVersion = new Version(2, 8, 21),
-                Password = EnvironmentalService.RedisService.Credentials.Password
+                Password = service.Credentials.Password
             };
             
 
             _redis = await ConnectionMultiplexer.ConnectAsync(config);
 
-            PseudoLoggingService.Log("KeyValueDatabaseService", "DB connection status: " + _redis.IsConnected.ToString());
+            PseudoLoggingService.Log(service.Name, "DB connection status: " + _redis.IsConnected.ToString());
         }
 
         /// <summary>
@@ -60,7 +49,14 @@ namespace ParkingProcessing.Services
         public string GetValueForKey(string key)
         {
             IDatabase db = _redis.GetDatabase();
-            return db.StringGet(key);
+            var result = db.StringGet(key);
+
+            if (!result.HasValue)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            return result;
         }
 
         /// <summary>

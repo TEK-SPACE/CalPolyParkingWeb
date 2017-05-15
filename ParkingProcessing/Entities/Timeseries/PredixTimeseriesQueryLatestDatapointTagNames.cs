@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ParkingProcessing.Entities.IeParking
+namespace ParkingProcessing.Entities.Timeseries
 {
     /// <summary>
     /// Predix Ie Parking Latest Datapoint Tag.
     /// </summary>
-    public class PredixIeParkingLatestDatapointTagNames
+    public class PredixTimeseriesQueryLatestDatapointTagNames
     {
         /// <summary>
         /// Gets or sets the name.

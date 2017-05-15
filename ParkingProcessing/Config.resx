@@ -117,10 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfigurationDatabaseName" xml:space="preserve">
+    <value />
+  </data>
   <data name="PredixUaaClientID" xml:space="preserve">
     <value>processing_client</value>
   </data>
   <data name="PredixUaaClientSecret" xml:space="preserve">
     <value>emmNuNWxDsGKCnKSRgBccybLsXFVjM9rWx5yxJT9XPZBqsV2uEeJQrfyPU78a8gRu37LyVbznuWN3PCZh7KSTYrpv5qX7rrS9BfydHdTg4tgeKettKKjTxg5kDBnGGQj</value>
+  </data>
+  <data name="SensorConfigurationDatabaseName" xml:space="preserve">
+    <value>cp-parking-configdb</value>
+    <comment>tracks sensor configurations</comment>
+  </data>
+  <data name="SensorLotDatabaseName" xml:space="preserve">
+    <value>cp-parking-sensorlotdb</value>
+    <comment>tracks the sensor to parking lot mapping, as well as whether the sensor is configurable.</comment>
   </data>
 </root>

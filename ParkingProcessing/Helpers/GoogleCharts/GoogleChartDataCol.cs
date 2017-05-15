@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ParkingProcessing.Entities.Redis
+namespace ParkingProcessing.Helpers.GoogleCharts
 {
-    /// <summary>
-    /// Redis Service
-    /// </summary>
-    public class RedisService
+    public class GoogleChartDataCol
     {
         /// <summary>
-        /// Gets or sets the credentials.
+        /// Gets or sets the identifier.
         /// </summary>
         /// <value>
-        /// The credentials.
+        /// The identifier.
         /// </value>
-        public RedisServiceCredential Credentials { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the label.
@@ -27,11 +24,11 @@ namespace ParkingProcessing.Entities.Redis
         public string Label { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the type.
         /// </summary>
         /// <value>
-        /// The name.
+        /// The type.
         /// </value>
-        public string Name { get; set; }
+        public string Type { get; set; }
     }
 }

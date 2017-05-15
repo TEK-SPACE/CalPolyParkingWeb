@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using ParkingProcessing.Entities.Parking;
 using ParkingProcessing.Services;
 using Microsoft.AspNetCore.Mvc.Filters;
+using ParkingProcessing.Helpers;
+using ParkingProcessing.Helpers.GoogleCharts;
 
 namespace ParkingProcessing.Controllers
 {
@@ -56,7 +58,7 @@ namespace ParkingProcessing.Controllers
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ReportingController", e);
+                PseudoLoggingService.Log("ReportingController:GetParkingLots", e);
             }
 
             return StatusCode(statusCode: 500);
@@ -87,7 +89,7 @@ namespace ParkingProcessing.Controllers
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ReportingController", e);
+                PseudoLoggingService.Log("ReportingController:LotSummary", e);
             }
 
             return BadRequest();
@@ -118,7 +120,39 @@ namespace ParkingProcessing.Controllers
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ReportingController", e);
+                PseudoLoggingService.Log("ReportingController:LotDetail", e);
+            }
+
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authorization"></param>
+        /// <param name="lotid"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("parkinglot/{lotid}/historical/googlechart")]
+        [ProducesResponseType(typeof(GoogleChartData), 200)]
+        public async Task<IActionResult> LotHistorical([FromHeader] string authorization, [FromBody] ParkingLotHistorialRequest request)
+        {
+            var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
+
+            if (!validToken)
+            {
+                //return Unauthorized();
+            }
+
+            try
+            {
+                var historicalData = await TimeseriesQueryService.Instance.GetHistoricalData(request);
+                var krisFormat = DataHelpers.ParkingLotHistoricalResponseToGoogleChartData(historicalData);
+                return Ok(krisFormat);
+            }
+            catch (Exception e)
+            {
+                PseudoLoggingService.Log("ReportingController:LotHistorical", e);
             }
 
             return BadRequest();

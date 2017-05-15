@@ -62,6 +62,15 @@ namespace ParkingProcessing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string ConfigurationDatabaseName {
+            get {
+                return ResourceManager.GetString("ConfigurationDatabaseName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to processing_client.
         /// </summary>
         public static string PredixUaaClientID {
@@ -76,6 +85,24 @@ namespace ParkingProcessing {
         public static string PredixUaaClientSecret {
             get {
                 return ResourceManager.GetString("PredixUaaClientSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cp-parking-configdb.
+        /// </summary>
+        public static string SensorConfigurationDatabaseName {
+            get {
+                return ResourceManager.GetString("SensorConfigurationDatabaseName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cp-parking-sensorlotdb.
+        /// </summary>
+        public static string SensorLotDatabaseName {
+            get {
+                return ResourceManager.GetString("SensorLotDatabaseName", resourceCulture);
             }
         }
     }

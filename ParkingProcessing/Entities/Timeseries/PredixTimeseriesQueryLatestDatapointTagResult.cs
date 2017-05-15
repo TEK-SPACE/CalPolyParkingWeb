@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ParkingProcessing.Entities.IeParking
+namespace ParkingProcessing.Entities.Timeseries
 {
     /// <summary>
     /// Predix Ie Parking Latest Datapoint Tag Result.
     /// </summary>
-    public class PredixIeParkingLatestDatapointTagResult
+    public class PredixTimeseriesQueryLatestDatapointTagResult
     {
         /// <summary>
         /// Gets or sets the values.
@@ -24,6 +24,6 @@ namespace ParkingProcessing.Entities.IeParking
         /// <value>
         /// The attributes.
         /// </value>
-        public PredixIeParkingLatestDatapointTagAttributes Attributes { get; set; }
+        public PredixTimeseriesQueryLatestDatapointTagAttributes Attributes { get; set; }
     }
 }

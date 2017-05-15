@@ -72,6 +72,7 @@ namespace ParkingProcessing.Services
         {
             get
             {
+                var services = PredixServices.Redis11;
                 if (PredixServices.IeParking.Count != 1)
                 {
                     PseudoLoggingService.Log("EnvironmentalService", "There is not exactly one Intelligent Environments Parking service specified.");
@@ -87,16 +88,25 @@ namespace ParkingProcessing.Services
         /// <value>
         /// The redis service.
         /// </value>
-        public static RedisService RedisService
+        public static RedisService ConfigurationDatabase
         {
             get
             {
-                if (PredixServices.Redis11.Count != 1)
-                {
-                    PseudoLoggingService.Log("EnvironmentalService", "There is not exactly one Redis service specified.");
-                }
+                return PredixServices.Redis11.First((service => service.Name == Config.SensorConfigurationDatabaseName));
+            }
+        }
 
-                return PredixServices.Redis11[0];
+        /// <summary>
+        /// Gets the sensor to parking lot database
+        /// </summary>
+        /// <value>
+        /// The redis service.
+        /// </value>
+        public static RedisService SensorLotDatabase
+        {
+            get
+            {
+                 return PredixServices.Redis11.First((service => service.Name == Config.SensorLotDatabaseName));
             }
         }
 

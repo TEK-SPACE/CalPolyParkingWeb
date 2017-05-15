@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
-
-namespace ParkingProcessing.Entities.IeParking
+namespace ParkingProcessing.Entities.Timeseries
 {
     /// <summary>
-    /// Predix Ie Parking Latest Datapoint Request.
+    /// Predix Ie Parking Latest Datapoint Result
     /// </summary>
-    public class PredixIeParkingLatestDatapointRequest
+    public class PredixTimeseriesQueryLatestDatapointResult
     {
         /// <summary>
         /// Gets or sets the tags.
@@ -19,6 +18,6 @@ namespace ParkingProcessing.Entities.IeParking
         /// The tags.
         /// </value>
         [JsonProperty("tags")]
-        public List<PredixIeParkingLatestDatapointTagNames> Tags { get; set; }
+        public List<PredixTimeseriesQueryLatestDatapointTag> Tags { get; set; }
     }
 }

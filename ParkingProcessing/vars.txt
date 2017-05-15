@@ -1,0 +1,133 @@
+Getting env variables for app cp-parking-process-api in org Predix_Builders_Hack / space Cal Poly SLO as joe.durand3@gmail.com...
+OK
+
+System-Provided:
+{
+ "VCAP_SERVICES": {
+  "ie-parking": [
+   {
+    "credentials": {
+     "url": "https://ie-parking.run.aws-usw02-pr.ice.predix.io",
+     "zone": {
+      "http-header-name": "Predix-Zone-Id",
+      "http-header-value": "120e52f9-f5b3-4145-9b50-86e8bdffcba4",
+      "oauth-scope": "ie-parking.zones.120e52f9-f5b3-4145-9b50-86e8bdffcba4.user"
+     }
+    },
+    "label": "ie-parking",
+    "name": "cp-parking-current",
+    "plan": "Beta",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [],
+    "volume_mounts": []
+   }
+  ],
+  "predix-timeseries": [
+   {
+    "credentials": {
+     "ingest": {
+      "uri": "wss://gateway-predix-data-services.run.aws-usw02-pr.ice.predix.io/v1/stream/messages",
+      "zone-http-header-name": "Predix-Zone-Id",
+      "zone-http-header-value": "5309c4f2-60e3-4799-8066-101ec679c35c",
+      "zone-token-scopes": [
+       "timeseries.zones.5309c4f2-60e3-4799-8066-101ec679c35c.user",
+       "timeseries.zones.5309c4f2-60e3-4799-8066-101ec679c35c.ingest"
+      ]
+     },
+     "query": {
+      "uri": "https://time-series-store-predix.run.aws-usw02-pr.ice.predix.io/v1/datapoints",
+      "zone-http-header-name": "Predix-Zone-Id",
+      "zone-http-header-value": "5309c4f2-60e3-4799-8066-101ec679c35c",
+      "zone-token-scopes": [
+       "timeseries.zones.5309c4f2-60e3-4799-8066-101ec679c35c.user",
+       "timeseries.zones.5309c4f2-60e3-4799-8066-101ec679c35c.query"
+      ]
+     }
+    },
+    "label": "predix-timeseries",
+    "name": "cp-parking-timeseries",
+    "plan": "Tiered",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [
+     "timeseries",
+     "time-series",
+     "time series"
+    ],
+    "volume_mounts": []
+   }
+  ],
+  "predix-uaa": [
+   {
+    "credentials": {
+     "dashboardUrl": "https://uaa-dashboard.run.aws-usw02-pr.ice.predix.io/#/login/9a6043f4-f480-4fa6-a050-77fc3c37a943",
+     "issuerId": "https://9a6043f4-f480-4fa6-a050-77fc3c37a943.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token",
+     "subdomain": "9a6043f4-f480-4fa6-a050-77fc3c37a943",
+     "uri": "https://9a6043f4-f480-4fa6-a050-77fc3c37a943.predix-uaa.run.aws-usw02-pr.ice.predix.io",
+     "zone": {
+      "http-header-name": "X-Identity-Zone-Id",
+      "http-header-value": "9a6043f4-f480-4fa6-a050-77fc3c37a943"
+     }
+    },
+    "label": "predix-uaa",
+    "name": "parking-uaa",
+    "plan": "Free",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [],
+    "volume_mounts": []
+   }
+  ],
+  "redis-11": [
+   {
+    "credentials": {
+     "host": "10.72.6.27",
+     "password": "8ccec3d4-c1b2-4d49-9d8c-3b013e221535",
+     "port": 35078
+    },
+    "label": "redis-11",
+    "name": "cp-parking-redis",
+    "plan": "shared-vm",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [
+     "pivotal",
+     "redis"
+    ],
+    "volume_mounts": []
+   }
+  ]
+ }
+}
+
+{
+ "VCAP_APPLICATION": {
+  "application_id": "7474572e-b9ae-44bc-a9e1-9467dd06fcb1",
+  "application_name": "cp-parking-process-api",
+  "application_uris": [
+   "cp-parking-process-api.run.aws-usw02-pr.ice.predix.io"
+  ],
+  "application_version": "f8feb235-7737-49d6-beee-a9399d5acef9",
+  "limits": {
+   "disk": 1024,
+   "fds": 16384,
+   "mem": 512
+  },
+  "name": "cp-parking-process-api",
+  "space_id": "cd7ed74f-3a77-466d-838f-1c9692052664",
+  "space_name": "Cal Poly SLO",
+  "uris": [
+   "cp-parking-process-api.run.aws-usw02-pr.ice.predix.io"
+  ],
+  "users": null,
+  "version": "f8feb235-7737-49d6-beee-a9399d5acef9"
+ }
+}
+
+No user-defined env variables have been set
+
+No running env variables have been set
+
+No staging env variables have been set
+

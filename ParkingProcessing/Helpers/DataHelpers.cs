@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ParkingProcessing.Entities.IeParking;
 using ParkingProcessing.Entities.Timeseries;
 using ParkingProcessing.Entities.Parking;
+using ParkingProcessing.Helpers.GoogleCharts;
 
 namespace ParkingProcessing.Helpers
 {
@@ -118,11 +119,130 @@ namespace ParkingProcessing.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Timeserieses the query latest datapoint result to parking lot summary.
+        /// </summary>
+        /// <param name="lotid">The lotid.</param>
+        /// <param name="from">From.</param>
+        /// <returns></returns>
+        public static ParkingLotSummary TimeseriesQueryLatestDatapointResultToParkingLotSummary(string lotid,
+            PredixTimeseriesQueryLatestDatapointResult from)
+        {
+            //generate a lot summary from these datapoints
+            var lotSummary = new ParkingLotSummary()
+            {
+                ParkingLotId = lotid
+            };
+            foreach (var tag in from.Tags)
+            {
+                //force casting required... ouch
+                var values = tag.Results.First().Values[0];
 
-        private static long DatetimeToEpochMs(DateTime dateTime)
+                var timestamp = (long)values[0];
+                Boolean.TryParse((string)values[1], out var status);
+
+                var datetime = DataHelpers.UnixTimeStampToDateTime(timestamp);
+
+                if (datetime > lotSummary.NewestTimestamp)
+                {
+                    lotSummary.NewestTimestamp = datetime;
+                }
+
+                if (datetime < lotSummary.OldestTimestamp)
+                {
+                    lotSummary.OldestTimestamp = datetime;
+                }
+
+                lotSummary.ParkingSpotsTotal++;
+                lotSummary.ParkingSpotsTaken += status ? 1 : 0;
+            }
+            lotSummary.ParkingSpotsFree = lotSummary.ParkingSpotsTotal - lotSummary.ParkingSpotsTaken;
+
+            return lotSummary;
+        }
+
+        /// <summary>
+        /// Parkings the lot historical response to google chart data.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <returns></returns>
+        public static GoogleChartData ParkingLotHistoricalResponseToGoogleChartData(ParkingLotHistoricalResponse from)
+        {
+            var result = new GoogleChartData()
+            {
+                Cols = new List<GoogleChartDataCol>()
+                {
+
+                    new GoogleChartDataCol()
+                    {
+                        Id = "a",
+                        Label = "timestamp",
+                        Type = "date"
+                    },
+                    new GoogleChartDataCol()
+                    {
+                        Id = "b",
+                        Label = "Total",
+                        Type = "number"
+                    },
+                    new GoogleChartDataCol()
+                    {
+                        Id = "c",
+                        Label = "Taken",
+                        Type = "number"
+                    },
+                    new GoogleChartDataCol()
+                    {
+                        Id = "d",
+                        Label = "Free",
+                        Type = "number"
+                    }
+                },
+                Rows = new List<GoogleChartDataRow>()
+            };
+
+
+            foreach (var summary in from.Snapshots)
+            {
+                result.Rows.Add(new GoogleChartDataRow()
+                {
+                    C = new List<GoogleChartDataRowC>()
+                    {
+                        new GoogleChartDataRowC()
+                        {
+                            V = DatetimeToEpochMs(summary.Timestamp).ToString(),
+                            F = summary.Timestamp.ToString("g")
+                        },
+                        new GoogleChartDataRowC()
+                        {
+                            V = summary.ParkingSpotsTotal.ToString()
+                        },
+                        new GoogleChartDataRowC()
+                        {
+                            V = summary.ParkingSpotsTaken.ToString()
+                        },
+                        new GoogleChartDataRowC()
+                        {
+                            V = summary.ParkingSpotsFree.ToString()
+                        },
+                    }
+                });
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Datetimes to epoch ms.
+        /// </summary>
+        /// <param name="dateTime">The date time.</param>
+        /// <returns></returns>
+        public static long DatetimeToEpochMs(DateTime dateTime)
         {
             return (long)(dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
+
+
 
         /// <summary>
         /// The unix epoch date time.

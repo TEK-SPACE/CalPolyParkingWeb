@@ -46,19 +46,20 @@ namespace ParkingProcessing
 
         private static async void Initialize()
         {
+
             try
             {
                 await AuthenticationService.Instance.Initialize();
                 await TimeseriesIngestService.Instance.Initialize();
                 await IeParkingIngestService.Instance.Initialize();
-                await KeyValueDatabaseService.Instance.Initialize();
+                await SensorLotDatabaseService.Instance.Initialize();
+                await SensorConfigurationService.Instance.Initialize();
                 PseudoLoggingService.Log("Application", "Initialization Completed. System Ready.");
             }
             catch (Exception e)
             {
                 PseudoLoggingService.Log("Application", e);
             }
-
         }
     }
 }

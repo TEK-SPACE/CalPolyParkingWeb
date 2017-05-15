@@ -7,4 +7,5 @@
       - cp-parking-timeseries
       - parking-uaa
       - cp-parking-current
-      - cp-parking-redis
+      - cp-parking-sensorlotdb
+      - cp-parking-configdb

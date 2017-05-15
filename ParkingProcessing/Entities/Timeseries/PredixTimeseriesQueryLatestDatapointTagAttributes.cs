@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ParkingProcessing.Entities.IeParking
+namespace ParkingProcessing.Entities.Timeseries
 {
     /// <summary>
     /// Predix Ie Parking Latest Datapoint Tag Attributes.
     /// </summary>
-    public class PredixIeParkingLatestDatapointTagAttributes
+    public class PredixTimeseriesQueryLatestDatapointTagAttributes
     {
         /// <summary>
         /// Gets or sets the parking lot identifier.

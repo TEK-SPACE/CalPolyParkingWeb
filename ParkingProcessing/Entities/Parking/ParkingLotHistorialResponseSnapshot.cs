@@ -6,25 +6,17 @@ using System.Threading.Tasks;
 namespace ParkingProcessing.Entities.Parking
 {
     /// <summary>
-    /// Parking Lot Summary.
+    /// Parking Lot Historical Response Snapshot
     /// </summary>
-    public class ParkingLotSummary
+    public class ParkingLotHistorialResponseSnapshot
     {
         /// <summary>
-        /// Gets or sets the parking lot identifier.
+        /// Gets or sets the timestamp.
         /// </summary>
         /// <value>
-        /// The parking lot identifier.
+        /// The timestamp.
         /// </value>
-        public string ParkingLotId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the parking lot status.
-        /// </summary>
-        /// <value>
-        /// The parking lot status.
-        /// </value>
-        public string ParkingLotStatus { get; set; }
+        public DateTime Timestamp { get; set; }
 
         /// <summary>
         /// Gets or sets the parking spots total.
@@ -49,21 +41,5 @@ namespace ParkingProcessing.Entities.Parking
         /// The parking spots taken.
         /// </value>
         public int ParkingSpotsTaken { get; set; }
-
-        /// <summary>
-        /// Gets or sets the oldest timestamp.
-        /// </summary>
-        /// <value>
-        /// The oldest timestamp.
-        /// </value>
-        public DateTime OldestTimestamp { get; set; } = DateTime.MaxValue;
-
-        /// <summary>
-        /// Gets or sets the newest timestamp.
-        /// </summary>
-        /// <value>
-        /// The newest timestamp.
-        /// </value>
-        public DateTime NewestTimestamp { get; set; } = DateTime.MinValue;
     }
 }
