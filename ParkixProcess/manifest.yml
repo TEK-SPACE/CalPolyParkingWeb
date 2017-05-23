@@ -1,0 +1,11 @@
+ applications:
+   - name: cp-parking-process-api
+     buildpack: https://github.com/cloudfoundry/dotnet-core-buildpack.git
+     memory: 1024M
+     stack: cflinuxfs2
+     services:
+      - cp-parking-timeseries
+      - parking-uaa
+      - cp-parking-current
+      - cp-parking-sensorlotdb
+      - cp-parking-configdb
