@@ -1,0 +1,8 @@
+ applications:
+   - name: cp-parkix-currentsensorA
+     buildpack: https://github.com/cloudfoundry/dotnet-core-buildpack.git
+     memory: 1024M
+     stack: cflinuxfs2
+     services:
+      - cp-parkix-uaa
+      - cp-parking-current 

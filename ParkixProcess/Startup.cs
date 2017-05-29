@@ -55,7 +55,7 @@ namespace Parkix.Process
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Parkix", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Parkix Process", Version = "v1" });
             });
         }
 

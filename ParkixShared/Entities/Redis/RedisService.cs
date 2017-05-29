@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Parkix.Process.Entities.Redis
+namespace Parkix.Shared.Entities.Redis
 {
     /// <summary>
     /// Redis Service

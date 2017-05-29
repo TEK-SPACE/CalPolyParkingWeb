@@ -1,31 +1,25 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Parkix.Shared.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Parkix.Shared.Entities.Sensor;
 using Newtonsoft.Json;
-
-using Parkix.Processing.Entities.Parking;
-using Parkix.Processing.Services;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Parkix.Processing.Entities.Configuration;
-using System.Net.Http;
-using Microsoft.AspNetCore.Http;
-using Parkix.Processing.Entities.Sensor;
 
 namespace Parkix.Processing.Controllers
 {
-    
     /// <summary>
     /// Report system status
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller"/>
-    [Route("api/configuration")]
+    [Route("api")]
     public class ConfigurationController : Controller
     {
+
+        #region SYSTEM
 
         /// <summary>
         /// Gets a list of the available sensors.
@@ -34,30 +28,107 @@ namespace Parkix.Processing.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("sensors")]
+        [ProducesResponseType(type: typeof(string[]), statusCode: 200)]
         public async Task<IActionResult> GetSensors([FromHeader] string authorization)
         {
             try
             {
-                var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
-
-                if (!validToken)
+                var authenticated = await AuthenticationService.Instance.ValidateToken(authorization);
+                if (!authenticated)
                 {
-                    //return Unauthorized();
+                    return Unauthorized();
                 }
 
-                var sensors = SensorLotDatabaseService.Instance.GetAllSensorLotMappingRecords();
-                return Ok(sensors);
+                var system = ConfigurationService.Instance.GetSystem();
+                return Ok(system.Sensors);
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ReportingController", e);
+                PseudoLoggingService.Log("ConfigurationController, GetSensors", e);
+                return new StatusCodeResult(500);
             }
-
-            return StatusCode(statusCode: 500);
         }
 
         /// <summary>
-        /// Gets the lot summary.
+        /// Gets a list of the available sensors.
+        /// </summary>
+        /// <param name="authorization"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("lots")]
+        [ProducesResponseType(type: typeof(string[]), statusCode: 200)]
+        public async Task<IActionResult> GetParkingLots([FromHeader] string authorization)
+        {
+            try
+            {
+                var authenticated = await AuthenticationService.Instance.ValidateToken(authorization);
+                if (!authenticated)
+                {
+                    return Unauthorized();
+                }
+
+                var system = ConfigurationService.Instance.GetSystem();
+                return Ok(system.ParkingLots);
+            }
+            catch (Exception e)
+            {
+                PseudoLoggingService.Log("ConfigurationController, GetParkingLots", e);
+                return new StatusCodeResult(500);
+            }
+        }
+
+        #endregion
+        #region SENSOR
+
+        /// <summary>
+        /// Gets the sensor config.
+        /// </summary>
+        /// <param name="authorization"></param>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("sensor/{guid}/config")]
+        [ProducesResponseType(type: typeof(List<StaticEntityCoordinateSet>), statusCode: 200)]
+        public async Task<IActionResult> GetSensorConfig(string authorization, string guid)
+        {
+            try
+            {
+                var authenticated = await AuthenticationService.Instance.ValidateToken(authorization);
+                if (!authenticated)
+                {
+                    return Unauthorized();
+                }
+
+                if (!ConfigurationService.Instance.GetSystem().Sensors.Contains(guid))
+                {
+                    return NotFound();
+                }
+
+                var exists = SystemService.Instance.GetSensor<StaticCustomCameraSensor>(guid: guid, value: out var record);
+                if (!exists)
+                {
+                    return NotFound();
+                }
+
+                if (record.coordinates == null || record.ConfigStatus == ConfigurationStatus.None)
+                {
+                    return NotFound();
+                }
+
+                record.ConfigStatus = ConfigurationStatus.Current;
+                ConfigurationService.Instance.PutSensor(record);
+                return Ok(record.coordinates);
+            }
+            catch (Exception e)
+            {
+                PseudoLoggingService.Log("ConfigurationController, GetSensorConfig", e);
+            }
+
+            return new StatusCodeResult(500);
+        }
+
+        /// <summary>
+        /// Puts the sensor config.
         /// </summary>
         /// <param name="authorization"></param>
         /// <param name="guid"></param>
@@ -65,64 +136,38 @@ namespace Parkix.Processing.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("sensor/{guid}/config")]
-        public async Task<IActionResult> PostSensorConfig([FromHeader] string authorization, string guid, [FromBody] List<ParkingSpotConfiguration> configuration)
+        public async Task<IActionResult> PostSensorConfig([FromHeader] string authorization, string guid, [FromBody] List<StaticEntityCoordinateSet> configuration)
         {
-            var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
-
-            if (!validToken)
-            {
-                //return Unauthorized();
-            }
-
             try
             {
-                SensorConfigurationService.Instance.UpdateSensorConfiguration(guid, configuration);
-                return Accepted();
-            }
-            catch (Exception e)
-            {
-                PseudoLoggingService.Log("ConfigurationController", e);
-            }
-
-            return BadRequest();
-        }
-
-        /// <summary>
-        /// Gets the sensor configuration.
-        /// </summary>
-        /// <param name="authorization">The authorization.</param>
-        /// <param name="guid">The unique identifier.</param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("sensor/{guid}/config")]
-        public async Task<IActionResult> GetSensorConfig([FromHeader] string authorization, string guid)
-        {
-            var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
-
-            if (!validToken)
-            {
-                //return Unauthorized();
-            }
-            
-            try
-            {
-                var result = SensorConfigurationService.Instance.GetSensorConfiguration(guid, out var configuration);
-
-                if (result)
+                var authenticated = await AuthenticationService.Instance.ValidateToken(authorization);
+                if (!authenticated)
                 {
-                    return Ok(configuration);
+                    return Unauthorized();
                 }
-                else
+
+                if (!ConfigurationService.Instance.GetSystem().Sensors.Contains(guid))
                 {
                     return NotFound();
                 }
+
+                var sensorRecord = new StaticCustomCameraSensor()
+                {
+                    GUID = guid,
+                    coordinates = configuration,
+                    SensorType = "STATIC_CUSTOM_CAMERA",
+                    ConfigStatus = ConfigurationStatus.Update
+                };
+                ConfigurationService.Instance.PutSensor<StaticCustomCameraSensor>(sensorRecord);
+
+                return Ok();
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ConfigurationController", e);
+                PseudoLoggingService.Log("ConfigurationController, PutSensorConfig", e);       
             }
 
-            return BadRequest();
+            return new StatusCodeResult(500);
         }
 
         /// <summary>
@@ -139,51 +184,71 @@ namespace Parkix.Processing.Controllers
 
             if (!validToken)
             {
-                //return Unauthorized();
+                return Unauthorized();
             }
 
             try
             {
-                var found = SensorConfigurationService.Instance.GetSensorPhoto(guid, out var photoBytes);
-
-                if (found)
-                {
-                    return File(photoBytes, "image/jpeg");
-                }
-                else
+                if (!ConfigurationService.Instance.GetSystem().Sensors.Contains(guid))
                 {
                     return NotFound();
                 }
+
+                var exists = ConfigurationService.Instance.GetSensor<StaticCustomCameraSensor>(guid: guid, value: out var record);
+                if (!exists || record.Image == null)
+                {
+                    return NotFound();
+                }
+
+                return File(record.Image, "image/jpeg");
             }
             catch (Exception e)
             {
                 PseudoLoggingService.Log("ConfigurationController", e);
             }
 
-            return BadRequest();
+            return new StatusCodeResult(500);
         }
 
+        /// <summary>
+        /// Puts a sensor image.
+        /// </summary>
+        /// <param name="authorization"></param>
+        /// <param name="guid"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("sensor/{guid}/image")]
         public async Task<IActionResult> PutSensorImage([FromHeader] string authorization, string guid, IFormFile file)
         {
-            var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
-
-            if (!validToken)
-            {
-                //return Unauthorized();
-            }
-
             try
             {
+                var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
+
+                if (!validToken)
+                {
+                    return Unauthorized();
+                }
+
+                if (!ConfigurationService.Instance.GetSystem().Sensors.Contains(guid))
+                {
+                    return NotFound();
+                }
+
+                var exists = ConfigurationService.Instance.GetSensor<StaticCustomCameraSensor>(guid: guid, value: out var record);
+                if (!exists)
+                {
+                    return NotFound();
+                }
+
                 var stream = file.OpenReadStream();
                 var data = new MemoryStream();
                 stream.CopyTo(data);
-
-                SensorConfigurationService.Instance.SetSensorPhoto(guid, data.ToArray());
+                record.Image = data.ToArray();
+                ConfigurationService.Instance.PutSensor(record);
 
                 return Ok(
-                    "https://cp-parking-process-api.run.aws-usw02-pr.ice.predix.io/api/configuration/sensor/" + guid +
+                    "https://cp-predix-configure.run.aws-usw02-pr.ice.predix.io/api/sensor/" + guid +
                     "/image");
             }
             catch (Exception e)
@@ -191,8 +256,10 @@ namespace Parkix.Processing.Controllers
                 PseudoLoggingService.Log("ConfigurationController", e);
             }
 
-            return BadRequest();
+            return new StatusCodeResult(500);
         }
+
+#endregion
 
 
         /// <summary>

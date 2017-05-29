@@ -10,7 +10,7 @@ namespace Parkix.Shared.Entities.Parking
     /// </summary>
     public class ParkingLotFrame
     {
-        private DayTimeSeries _spotsTaken;
+        public DayTimeSeries SpotsTaken;
 
         /// <summary>
         /// Gets the starting timestamp of the parking lot frame.
@@ -22,7 +22,7 @@ namespace Parkix.Shared.Entities.Parking
         {
             get
             {
-                return _spotsTaken.StartTimeStamp;
+                return SpotsTaken.StartTimeStamp;
             }
         }
 
@@ -36,7 +36,7 @@ namespace Parkix.Shared.Entities.Parking
         {
             get
             {
-                return _spotsTaken.EndTimeStamp;
+                return SpotsTaken.EndTimeStamp;
             }
         }
 
@@ -44,9 +44,9 @@ namespace Parkix.Shared.Entities.Parking
         /// Initializes a new instance of the <see cref="ParkingLotFrame"/> class.
         /// </summary>
         /// <param name="start">The start.</param>
-        ParkingLotFrame(DateTime start)
+        public ParkingLotFrame(DateTime start)
         {
-            _spotsTaken = new DayTimeSeries(start);
+            SpotsTaken = new DayTimeSeries(start);
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace Parkix.Shared.Entities.Parking
         /// <param name="spotsTaken">The spots taken.</param>
         ParkingLotFrame(DateTime start, int spotsTaken)
         {
-            _spotsTaken = new DayTimeSeries(start);
-            _spotsTaken.AddDataPoint(spotsTaken, start, false);
+            SpotsTaken = new DayTimeSeries(start);
+            SpotsTaken.AddDataPoint(spotsTaken, start);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Parkix.Shared.Entities.Parking
         /// <param name="snapshot">The snapshot.</param>
         public void UpdateWithSnapshot(ParkingLotSnapshot snapshot)
         {
-            _spotsTaken.AddDataPoint(snapshot.SpotsTaken, snapshot.Timestamp, true);
+            SpotsTaken.AddDataPoint(snapshot.SpotsTaken, snapshot.Timestamp);
         }
     }
 }

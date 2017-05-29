@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Parkix.CurrentSensor.Entities.IeParking;
-using Parkix.Processing.Services;
+using Parkix.Shared.Services;
+using System;
+using System.IO;
 
-namespace Parkix.Processing
+namespace Parkix.Configure
 {
     /// <summary>
     /// The program.
@@ -46,14 +41,10 @@ namespace Parkix.Processing
 
         private static async void Initialize()
         {
-
             try
             {
-                await AuthenticationService.Instance.Initialize();
-                await TimeseriesIngestService.Instance.Initialize();
-                await IeParkingIngestService.Instance.Initialize();
-                await SensorLotDatabaseService.Instance.Initialize();
-                await SensorConfigurationService.Instance.Initialize();
+                await AuthenticationService.Instance.Initialize(ConfigureSettings.PredixUaaClientID, ConfigureSettings.PredixUaaClientSecret);
+                await ConfigurationService.Instance.Initialize(ConfigureEnvironmentalService.SystemDatabase);
                 PseudoLoggingService.Log("Application", "Initialization Completed. System Ready.");
             }
             catch (Exception e)

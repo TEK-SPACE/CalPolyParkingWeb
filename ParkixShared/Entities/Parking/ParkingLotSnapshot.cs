@@ -10,13 +10,6 @@ namespace Parkix.Shared.Entities.Parking
     /// </summary>
     public class ParkingLotSnapshot
     {
-        /// <summary>
-        /// Gets or sets the parking lot identifier.
-        /// </summary>
-        /// <value>
-        /// The parking lot identifier.
-        /// </value>
-        public string ParkingLotId { get; set; }
 
         /// <summary>
         /// Gets or sets the sensor identifier.
@@ -37,6 +30,5 @@ namespace Parkix.Shared.Entities.Parking
         public short SpotsTaken { get; set; }
 
         public List<string> LicensePlates { get; set; }
-
     }
 }

@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Parkix.Process.Entities.Redis;
 using StackExchange.Redis;
 using Parkix.Shared.Services;
+using Newtonsoft.Json;
+using Parkix.Shared.Entities.Redis;
+using Parkix.Shared.Helpers;
 
-namespace Parkix.Process.Services
+namespace Parkix.Shared.Services
 {
     /// <summary>
     /// Key Value Database Servicev
     /// </summary>
     public class RedisDatabaseService
     {
-
-        protected ConnectionMultiplexer _redis;
+        private ConnectionMultiplexer _redis;
 
         /// <summary>
-        /// Initialize the Key Value Database Service.
+        /// Initialize the Redis Database Service.
         /// </summary>
         /// <returns></returns>
-        protected async Task Initialize(RedisService service)
+        public async Task Initialize(RedisService service)
         {
             var creds = service.Credentials;
             Int32.TryParse(service.Credentials.Port, out var port);
@@ -35,7 +36,6 @@ namespace Parkix.Process.Services
                 DefaultVersion = new Version(2, 8, 21),
                 Password = service.Credentials.Password
             };
-            
 
             _redis = await ConnectionMultiplexer.ConnectAsync(config);
 
@@ -43,51 +43,48 @@ namespace Parkix.Process.Services
         }
 
         /// <summary>
-        /// Gets the value for key.
+        /// Gets the value for the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
         /// <returns></returns>
-        public string GetStringForKey(string key)
+        protected bool GetValue<T>(string key, out T value)
         {
             IDatabase db = _redis.GetDatabase();
-            var result = db.StringGet(key);
+            var data = db.StringGet(key: key);
 
-            if (!result.HasValue)
+            if (data.HasValue)
             {
-                throw new KeyNotFoundException();
+                value = JsonConvert.DeserializeObject<T>(data);
+                return true;
             }
-
-            return result;
+            else
+            {
+                value = default(T);
+                return false;
+            }
         }
 
         /// <summary>
-        /// Gets the value for key.
+        /// Sets the value for the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public byte[] GetByteArrayForKey(string key)
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        protected void SetValue(string key, object value)
         {
             IDatabase db = _redis.GetDatabase();
-            var result = db.StringGet(key);
-            
-
-            if (!result.HasValue)
-            {
-                throw new KeyNotFoundException();
-            }
-
-            return result;
+            var data = JsonConvert.SerializeObject(value);
+            db.StringSet(key: key, value: data);
         }
 
         /// <summary>
-        /// Sets the value for key.
+        /// Deletes the value for the specified key.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        public void SetStringForKey(string key, string value)
+        /// <param name="key"></param>
+        protected void DeleteValue(string key)
         {
             IDatabase db = _redis.GetDatabase();
-            db.StringSet(key: key, value: value);
+            db.KeyDelete(key);
         }
     }
 }

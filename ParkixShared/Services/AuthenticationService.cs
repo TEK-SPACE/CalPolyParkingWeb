@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Parkix.Shared.Entities.Uaa;
+using Parkix.Shared.Helpers;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net.Http;
 using System.Threading;
-using Newtonsoft.Json;
-using Parkix.Shared.Entities.Uaa;
-using Parkix.Shared.Helpers;
-using Parkix.Shared.Entities.UAA;
+using System.Threading.Tasks;
+using Parkix.Shared.Entities.Environment;
 
 namespace Parkix.Shared.Services
 {
@@ -19,13 +17,23 @@ namespace Parkix.Shared.Services
         /// <summary>
         /// The instance of the UAA Authentication Service interface.
         /// </summary>
-        public static AuthenticationService Instance { get; }
+        public static AuthenticationService Instance { get; } = new AuthenticationService(CommonEnvironmentalService<CommonPredixVcapServices>.UaaService);
         private PredixUaaService _service;
 
         /// <summary>
-        /// Tracks the Predix UAA Authentication token used by this application instance.
+        /// Tracks the Predix UAA token used by this application instance.
         /// </summary>
         private string _token = "";
+
+        /// <summary>
+        /// Tracks the Predix UAA client id used by this application instance.
+        /// </summary>
+        private string _clientid = "";
+
+        /// <summary>
+        /// Tracks the Predix UAA client secret used by this application instance.
+        /// </summary>
+        private string _secret = "";
 
         /// <summary>
         /// Used to prevent frequent auth token verifications.
@@ -47,8 +55,11 @@ namespace Parkix.Shared.Services
         /// Initializes the instance.
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> Initialize()
+        public async Task<bool> Initialize(string id, string secret)
         {
+            _clientid = id;
+            _secret = secret;
+
             var result = false;
             try
             {
@@ -75,8 +86,8 @@ namespace Parkix.Shared.Services
         {
             Dictionary<string, string> dict = new Dictionary<string, string>()
             {
-                {"client_id", Config.PredixUaaClientID },
-                {"client_secret", Config.PredixUaaClientSecret },
+                {"client_id", _clientid },
+                {"client_secret", _secret },
                 {"grant_type", "client_credentials" },
                 {"response_type", "token" }
             };
@@ -119,6 +130,10 @@ namespace Parkix.Shared.Services
         public async Task<bool> ValidateToken(string token)
         {
 
+#if DEBUG
+            return true;
+#endif
+
             if (token == null)
             {
                 return false;
@@ -127,7 +142,7 @@ namespace Parkix.Shared.Services
             //authorize check token request
             var headers = new Dictionary<string, string>()
             {
-                {"authorization", "Basic " + Base64UrlEncode(Config.PredixUaaClientID + ":" + Config.PredixUaaClientSecret)},
+                {"authorization", "Basic " + Base64UrlEncode(_clientid + ":" + _secret)},
             };
 
             //CURL body
@@ -156,5 +171,6 @@ namespace Parkix.Shared.Services
                 .Replace('/', '_')
                 .Replace("=", "");
         }
+
     }
 }

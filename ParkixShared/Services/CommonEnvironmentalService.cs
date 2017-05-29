@@ -2,6 +2,7 @@
 using Parkix.Shared.Entities.Environment;
 using Parkix.Shared.Entities.Uaa;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Parkix.Shared.Services

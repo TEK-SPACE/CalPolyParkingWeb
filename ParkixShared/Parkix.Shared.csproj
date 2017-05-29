@@ -1,31 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="StackExchange.Redis" Version="1.2.3" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Config.Designer.cs">
-      <DependentUpon>Config.resx</DependentUpon>
+    <Compile Update="SharedSettings.Designer.cs">
+      <DependentUpon>SharedSettings.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Config.resx">
-      <LastGenOutput>Config.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="SharedSettings.resx">
+      <LastGenOutput>SharedSettings.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Configure\" />
+    <Folder Include="Controllers\Bases\" />
   </ItemGroup>
 
 </Project>

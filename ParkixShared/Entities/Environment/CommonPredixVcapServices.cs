@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Parkix.Shared.Entities.Redis;
 using Parkix.Shared.Entities.Uaa;
 using System.Collections.Generic;
 
@@ -26,5 +27,8 @@ namespace Parkix.Shared.Entities.Environment
         /// </value>
         [JsonProperty("predix-uaa")]
         public List<PredixUaaService> PredixUaa { get; set; }
+
+        [JsonProperty("redis-11")]
+        public List<RedisService> Redis { get; set; }
     }
 }

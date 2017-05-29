@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
-namespace Parkix.Shared.Entities.UAA
+namespace Parkix.Shared.Entities.Uaa
 {
     /// <summary>
     /// Predix Uaa Validate Token Response.

@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.WebSockets;
-using Parkix.Processing.Controllers;
-using Parkix.Processing.Services;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.Extensions.PlatformAbstractions;
-using System.IO;
+using System;
 
-namespace Parkix.Processing
+namespace Parkix.Configure
 {
     /// <summary>
     /// Startup routine.
@@ -55,7 +47,7 @@ namespace Parkix.Processing
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Parkix", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Parkix Configure", Version = "v1" });
             });
         }
 

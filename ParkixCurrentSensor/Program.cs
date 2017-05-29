@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Parkix.CurrentSensor.Services;
+using Parkix.Shared.Services;
+using System;
+using System.IO;
 
-namespace ParkingCurrentSensor
+namespace Parkix.CurrentSensor
 {
+    /// <summary>
+    /// The program.
+    /// </summary>
     public class Program
     {
         /// <summary>
@@ -35,11 +39,12 @@ namespace ParkingCurrentSensor
             host.Run();
         }
 
+
         private static async void Initialize()
         {
-
             try
             {
+                await AuthenticationService.Instance.Initialize(id: CurrentSensorSettings.PredixUaaClientId, secret: CurrentSensorSettings.PredixUaaClientSecret);
                 await IeParkingIngestService.Instance.Initialize();
                 PseudoLoggingService.Log("Application", "Initialization Completed. System Ready.");
             }
@@ -49,5 +54,4 @@ namespace ParkingCurrentSensor
             }
         }
     }
-
 }

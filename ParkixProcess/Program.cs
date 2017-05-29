@@ -49,7 +49,9 @@ namespace Parkix.Process
 
             try
             {
-                throw new NotImplementedException();
+                await AuthenticationService.Instance.Initialize(ProcessSettings.PredixUaaClientID, ProcessSettings.PredixUaaClientSecret);
+                await ProcessingService.Instance.Initialize(ProcessEnvironmentalService.HistoricalDatabase);
+                await SystemService.Instance.Initialize(ProcessEnvironmentalService.SystemDatabase);
                 PseudoLoggingService.Log("Application", "Initialization Completed. System Ready.");
             }
             catch (Exception e)
