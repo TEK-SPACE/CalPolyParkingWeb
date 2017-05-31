@@ -82,5 +82,26 @@ namespace Parkix.CurrentSensor.Services
                 PseudoLoggingService.Log("SpotToLotAdapter", "Processing endpoint did not accept data!");
             }
         }
+
+        /// <summary>
+        /// Sets the state.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        public void SetState(Dictionary<string, bool> state)
+        {
+            foreach (var key in state.Keys)
+            {
+                _parkingLot[key] = state[key];
+            }
+        }
+
+        /// <summary>
+        /// Gets the state.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, bool> GetState()
+        {
+            return _parkingLot;
+        }
     }
 }
