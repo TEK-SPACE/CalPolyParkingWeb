@@ -25,7 +25,7 @@ namespace Parkix.Shared.Helpers
         /// <param name="methodName">Name of the method.</param>
         /// <param name="headers">The headers.</param>
         /// <returns></returns>
-        public static async Task<T> SendAync<T>(HttpMethod method, string service, object request = null, string methodName = "", Dictionary<string, string> headers = null)
+        public static async Task<T> SendAync<T>(HttpMethod method, string service, object request = null, string methodName = "", Dictionary<string, string> headers = null, bool isJson = false)
         {
             string requestString = "";
 
@@ -34,7 +34,7 @@ namespace Parkix.Shared.Helpers
                 requestString = JsonConvert.SerializeObject(request, GetSerializationSettings());
             }
 
-            string result = await SendAsync(method, service, methodName, requestString, headers);
+            string result = await SendAsync(method, service, methodName, requestString, headers, isJson);
             return JsonConvert.DeserializeObject<T>(result, GetSerializationSettings());
         }
 
@@ -48,14 +48,14 @@ namespace Parkix.Shared.Helpers
         /// <param name="headers">The headers.</param>
         /// <returns></returns>
         private static async Task<string> SendAsync(HttpMethod methodRequestType, string service, string methodName,
-            string content = "", Dictionary<string,string> headers = null)
+            string content = "", Dictionary<string,string> headers = null, bool isJson = false)
         {
             try
             {
                 string serviceUri = service + methodName;
                 HttpRequestMessage request = new HttpRequestMessage(methodRequestType, serviceUri)
                 {
-                    Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded")
+                    Content = new StringContent(content, Encoding.UTF8, isJson? "application/json" :"application/x-www-form-urlencoded")
                 };
 
                 if (headers != null)

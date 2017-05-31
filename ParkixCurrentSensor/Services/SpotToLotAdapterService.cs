@@ -12,7 +12,7 @@ namespace Parkix.CurrentSensor.Services
 {
     public class SpotToLotAdapterService
     {
-        private Dictionary<string, bool> _parkingLot;
+        private Dictionary<string, bool> _parkingLot = new Dictionary<string, bool>();
 
         /// <summary>
         /// Gets the instance.
@@ -60,7 +60,7 @@ namespace Parkix.CurrentSensor.Services
         /// <summary>
         /// Submits the snapshot.
         /// </summary>
-        public void SubmitSnapshot()
+        public async void SubmitSnapshot()
         {
             var snapshot = new ParkingLotSnapshot()
             {
@@ -74,7 +74,13 @@ namespace Parkix.CurrentSensor.Services
                 {"authorization", AuthenticationService.GetAuthToken() }
             };
 
-            ServiceHelpers.SendAync<ProcessingResponse>(method: HttpMethod.Post, service: CurrentSensorSettings.ParkixProcessingEndpoint, request: snapshot, headers: headers).ConfigureAwait(false);
+            PseudoLoggingService.Log("SpotToLotAdapterService", "Logging snapshot of " + snapshot.SpotsTaken + " spots taken.");
+            var response = await ServiceHelpers.SendAync<ProcessingResponse>(method: HttpMethod.Post, service: CurrentSensorSettings.ParkixProcessingEndpoint, request: snapshot, headers: headers, isJson: true);
+
+            if (response == null)
+            {
+                PseudoLoggingService.Log("SpotToLotAdapter", "Processing endpoint did not accept data!");
+            }
         }
     }
 }

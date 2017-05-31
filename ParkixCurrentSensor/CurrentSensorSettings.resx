@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ParkixProcessingEndpoint" xml:space="preserve">
-    <value>https://cp-parkix-process.run.aws-usw02-pr.ice.predix.io/api/process</value>
+    <value>https://cp-parkix-process.run.aws-usw02-pr.ice.predix.io/api/ingest</value>
   </data>
   <data name="PredixUaaClientId" xml:space="preserve">
     <value>current_sensor_client</value>

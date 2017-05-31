@@ -46,7 +46,7 @@ namespace Parkix.Shared.Entities.Parking
         /// <param name="timestamp"></param>
         /// <param name="interpolate">Indicate whether we should fill in skipped time values.</param>
         /// <returns></returns>
-        public void AddDataPoint(int datapoint, DateTime timestamp)
+        public string AddDataPoint(int datapoint, DateTime timestamp)
         {
             var timeIndex = (int)(timestamp - StartTimeStamp).TotalMinutes / 5;
 
@@ -56,6 +56,8 @@ namespace Parkix.Shared.Entities.Parking
             }
 
             SeriesData[timeIndex] = datapoint;
+
+            return "data saved at index " + timeIndex;
         }
 
         /// <summary>

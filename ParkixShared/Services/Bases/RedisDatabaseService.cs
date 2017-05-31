@@ -50,6 +50,8 @@ namespace Parkix.Shared.Services
         /// <returns></returns>
         protected bool GetValue<T>(string key, out T value)
         {
+            PseudoLoggingService.Log("RedisDatabaseService", "Getting key: " + key);
+
             IDatabase db = _redis.GetDatabase();
             var data = db.StringGet(key: key);
 
@@ -72,6 +74,8 @@ namespace Parkix.Shared.Services
         /// <param name="value"></param>
         protected void SetValue(string key, object value)
         {
+            PseudoLoggingService.Log("RedisDatabaseService", "Setting key: " + key);
+
             IDatabase db = _redis.GetDatabase();
             var data = JsonConvert.SerializeObject(value);
             db.StringSet(key: key, value: data);

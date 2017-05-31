@@ -259,8 +259,7 @@ namespace Parkix.Processing.Controllers
             return new StatusCodeResult(500);
         }
 
-#endregion
-
+        #endregion
 
         /// <summary>
         /// Add a header to help the UI team out.

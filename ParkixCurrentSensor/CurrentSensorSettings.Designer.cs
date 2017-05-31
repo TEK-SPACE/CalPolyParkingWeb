@@ -62,7 +62,7 @@ namespace Parkix.CurrentSensor {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://cp-parkix-process.run.aws-usw02-pr.ice.predix.io/api/process.
+        ///   Looks up a localized string similar to https://cp-parkix-process.run.aws-usw02-pr.ice.predix.io/api/ingest.
         /// </summary>
         public static string ParkixProcessingEndpoint {
             get {

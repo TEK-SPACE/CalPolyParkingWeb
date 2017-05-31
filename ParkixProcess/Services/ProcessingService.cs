@@ -1,5 +1,6 @@
 ﻿using Parkix.Shared.Entities.Parking;
 using Parkix.Shared.Entities.Sensor;
+using Parkix.Shared.Helpers;
 using Parkix.Shared.Services;
 using System;
 
@@ -28,15 +29,22 @@ namespace Parkix.Process.Services
         /// <param name="snapshot">The snapshot.</param>
         public bool AcceptSnapshot(ParkingLotSnapshot snapshot)
         {
-            var sensorExists = GetValue<Sensor>(key: snapshot.SensorId, value: out var sensor);
+            var sensorExists = SystemService.Instance.GetSensor<Sensor>(guid: snapshot.SensorId, value: out var sensor);
 
             if (!sensorExists)
             {
+                PseudoLoggingService.Log("Processing Service", "Sensor does not exist.");
+
                 return false;
             }
 
+            PseudoLoggingService.Log("Processing Service", "Getting Frame...");
             var frame = GetOrCreateFrame(sensor.TrackingEntity, snapshot.Timestamp);
-            frame.UpdateWithSnapshot(snapshot);
+
+            PseudoLoggingService.Log("Processing Service", "Updating Frame...");
+            PseudoLoggingService.Log("Processing Service", frame.UpdateWithSnapshot(snapshot));
+            PseudoLoggingService.Log("Processing Service", "...complete.");
+            PseudoLoggingService.Log("Processing Service", "Saving Frame...");
             SaveFrame(frame, sensor.TrackingEntity);
 
             return true;
@@ -51,11 +59,12 @@ namespace Parkix.Process.Services
         /// <returns></returns>
         private ParkingLotFrame GetOrCreateFrame(string lotid, DateTime timestamp)
         {
-            var frameKey = lotid + "_" + timestamp.Date.Ticks;
+            var frameKey = lotid + "_" + DateHelpers.DatetimeToEpochMs(timestamp.Date);
             var exists = GetValue<ParkingLotFrame>(key: frameKey, value: out var frame);
 
             if (!exists)
             {
+                PseudoLoggingService.Log("Processing Service", "New frame created for timestamp");
                 frame = new ParkingLotFrame(timestamp.Date);
             }
 
@@ -68,8 +77,9 @@ namespace Parkix.Process.Services
         /// <param name="frame">The frame.</param>
         /// <param name="lotid">The lotid.</param>
         private void SaveFrame(ParkingLotFrame frame, string lotid)
-        {
-            var frameKey = lotid + "_" + frame.StartDateStamp.Date.Ticks;
+        { 
+            var frameKey = lotid + "_" + DateHelpers.DatetimeToEpochMs(frame.StartDateStamp.Date);
+            PseudoLoggingService.Log("Processing Service", "Saving frame for key" + frameKey);
             SetValue(key: frameKey, value: frame);
         }
     }

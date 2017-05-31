@@ -5,4 +5,4 @@
      stack: cflinuxfs2
      services:
       - cp-parkix-uaa
-      - cp-parking-current
+      - cp-parkix-current

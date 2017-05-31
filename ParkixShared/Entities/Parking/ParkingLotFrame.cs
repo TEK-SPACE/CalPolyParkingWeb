@@ -64,9 +64,9 @@ namespace Parkix.Shared.Entities.Parking
         /// Updates the frame with a snapshot.
         /// </summary>
         /// <param name="snapshot">The snapshot.</param>
-        public void UpdateWithSnapshot(ParkingLotSnapshot snapshot)
+        public string UpdateWithSnapshot(ParkingLotSnapshot snapshot)
         {
-            SpotsTaken.AddDataPoint(snapshot.SpotsTaken, snapshot.Timestamp);
+            return SpotsTaken.AddDataPoint(snapshot.SpotsTaken, snapshot.Timestamp);
         }
     }
 }

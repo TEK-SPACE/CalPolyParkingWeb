@@ -131,7 +131,7 @@ namespace Parkix.CurrentSensor.Services
                     {
                         break;
                     }
-
+                    PseudoLoggingService.Log("IeParkingIngestService", parkingEvent.EventType + " event at " + parkingEvent.LocationId);
                     SpotToLotAdapterService.Instance.LogEvent(parkingEvent.LocationId, parkingEvent.EventType);
                 }
                 catch (Exception e)
