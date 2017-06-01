@@ -6,6 +6,7 @@ using Parkix.Shared.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Parkix.Shared.Entities.Sensor;
+using Parkix.Shared.Entities.Parking;
 
 namespace Parkix.Tests
 {
@@ -60,7 +61,19 @@ namespace Parkix.Tests
             }
 
             var serialized = JsonConvert.SerializeObject(config);
+        }
 
+        [TestMethod]
+        public void CreateParkingLot()
+        {
+            var lot = new ParkingLot()
+            {
+                LotId = "GE1",
+                Latitude = 35.304343,
+                Longitude = -120.663233
+            };
+
+            var serialized = JsonConvert.SerializeObject(lot);
         }
     }
 }

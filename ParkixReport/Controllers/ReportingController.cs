@@ -11,15 +11,17 @@ using Parkix.Process.Entities.Parking;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json.Converters;
 using Parkix.Shared.Services;
+using Parkix.Report.Services;
+using Parkix.Shared.Entities.Parking;
 
-namespace Parkix.Process.Controllers
+namespace Parkix.Report.Controllers
 {
     
     /// <summary>
     /// Report system status
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller"/>
-    [Route("api/reporting")]
+    [Route("api")]
     public class ReportingController : Controller
     {
         /// <summary>
@@ -28,79 +30,70 @@ namespace Parkix.Process.Controllers
         /// <param name="authorization"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("parkinglots")]
-        public async Task<IActionResult> GetParkingLots([FromHeader] string authorization)
+        [Route("lot/{lotid}/latest")]
+        public async Task<IActionResult> GetLatestLotDatapoint([FromHeader] string authorization, string lotid)
         {
             try
             {
-                throw new NotImplementedException();
+                var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
+                if (!validToken)
+                {
+                    return Unauthorized();
+                }
+
+                var available = ReportingService.Instance.GetLatestParkingLotPercentFull(lotid: lotid, percentFull: out var percentFull);
+                if (!available)
+                {
+                    return NotFound();
+                }
+
+                return Ok(percentFull);
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ReportingController:GetParkingLots", e);
+                PseudoLoggingService.Log("ProcessingController", e);
             }
+
+            return new StatusCodeResult(500);
 
             return StatusCode(statusCode: 500);
         }
 
         /// <summary>
-        /// 
+        /// Gets a prediction of tomorrow's parking situation.
         /// </summary>
         /// <param name="authorization"></param>
-        /// <param name="lotid"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("parkinglot/{lotid}/summary")]
-        [ProducesResponseType(typeof(ParkingLotSummary), 200)]
-        public async Task<IActionResult> LotSummary([FromHeader] string authorization, string lotid)
+        [Route("lot/{lotid}/predict/tomorrow")]
+        public async Task<IActionResult> GetTommorrowLotPrediction([FromHeader] string authorization, string lotid)
         {
-            var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
+            var datfsdfa = SimulationHelpers.SimulationOne(20, maxRandom: 5);
 
-            if (!validToken)
-            {
-                //return Unauthorized();
-            }
-
+            return Ok(datfsdfa);
+            
             try
             {
-                throw new NotImplementedException();
+                var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
+                if (!validToken)
+                {
+                    return Unauthorized();
+                }
+
+                var exists = SystemService.Instance.GetParkingLot<ParkingLot>(lotid, value: out var lot);
+
+                var data = SimulationHelpers.SimulationOne(lot.TotalSpots, maxRandom: lot.TotalSpots / 10);
+           
+                return Ok(data);
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ReportingController:LotSummary", e);
+                PseudoLoggingService.Log("ProcessingController", e);
             }
 
-            return BadRequest();
-        }
+            return new StatusCodeResult(500);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="authorization"></param>
-        /// <param name="lotid"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("parkinglot/{lotid}/detail")]
-        [ProducesResponseType(typeof(ParkingLotDetail), 200)]
-        public async Task<IActionResult> LotDetail([FromHeader] string authorization, string lotid)
-        {
-            var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
-
-            if (!validToken)
-            {
-                //return Unauthorized();
-            }
-
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (Exception e)
-            {
-                PseudoLoggingService.Log("ReportingController:LotDetail", e);
-            }
-
-            return BadRequest();
+            return StatusCode(statusCode: 500);
         }
 
         /// <summary>

@@ -64,7 +64,7 @@ namespace Parkix.Shared.Services
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="parkinglot"></param>
-        protected void PutParkingLot<T>(T parkinglot) where T : ParkingLot
+        public void PutParkingLot<T>(T parkinglot) where T : ParkingLot
         {
             SetValue(key: "PARKINGLOT_" + parkinglot.LotId, value: parkinglot);
 

@@ -6,3 +6,4 @@
      services:
       - cp-parkix-uaa
       - cp-parkix-db-historical
+      - cp-parkix-db-system

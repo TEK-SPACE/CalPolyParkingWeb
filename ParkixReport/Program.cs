@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Parkix.Report;
+using Parkix.Report.Services;
+using Parkix.Shared.Services;
 using System;
 using System.IO;
 
@@ -43,6 +46,9 @@ namespace Parkix.Process
 
             try
             {
+                await AuthenticationService.Instance.Initialize(ReportSettings.PredixUaaClientID, ReportSettings.PredixUaaClientSecret);
+                //await ProcessingService.Instance.Initialize(ProcessEnvironmentalService.HistoricalDatabase);
+                await SystemService.Instance.Initialize(ReportEnvironmentalService.SystemDatabase);
                 PseudoLoggingService.Log("Application", "Initialization Completed. System Ready.");
             }
             catch (Exception e)

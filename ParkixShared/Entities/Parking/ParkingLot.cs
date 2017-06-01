@@ -12,8 +12,9 @@ namespace Parkix.Shared.Entities.Parking
         public string LotId { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public string oldestKey { get; set; }
-        public string newestKey { get; set; }
+        public string OldestKey { get; set; }
+        public string NewestKey { get; set; }
         public byte[] Image { get; set; }
+        public int TotalSpots { get; set; }
     }
 }

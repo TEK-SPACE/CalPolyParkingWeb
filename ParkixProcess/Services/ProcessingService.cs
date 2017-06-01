@@ -34,18 +34,17 @@ namespace Parkix.Process.Services
             if (!sensorExists)
             {
                 PseudoLoggingService.Log("Processing Service", "Sensor does not exist.");
-
                 return false;
             }
-
-            PseudoLoggingService.Log("Processing Service", "Getting Frame...");
+            
             var frame = GetOrCreateFrame(sensor.TrackingEntity, snapshot.Timestamp);
-
-            PseudoLoggingService.Log("Processing Service", "Updating Frame...");
-            PseudoLoggingService.Log("Processing Service", frame.UpdateWithSnapshot(snapshot));
-            PseudoLoggingService.Log("Processing Service", "...complete.");
-            PseudoLoggingService.Log("Processing Service", "Saving Frame...");
+            frame.UpdateWithSnapshot(snapshot);
             SaveFrame(frame, sensor.TrackingEntity);
+
+            //update newest frame key
+            SystemService.Instance.GetParkingLot<ParkingLot>(sensor.TrackingEntity, out var lot);
+            lot.NewestKey = sensor.TrackingEntity + "_" + DateHelpers.DatetimeToEpochMs(snapshot.Timestamp.Date);
+            SystemService.Instance.PutParkingLot(lot);
 
             return true;
         }
