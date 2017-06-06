@@ -3,5 +3,177 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h2>Dashboard</h2>
+<h2>@Model.ParkingName - PARKIX Home</h2>
+
+<div class="row">
+
+    <div class="col-lg-12">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+                <i class="fa fa-bar-chart-o fa-fw"></i> Parking Status (Last X minutes)
+
+                <div class="pull-right">
+
+                    <div class="btn-group">
+
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+
+                            Actions
+
+                            <span class="caret"></span>
+
+                        </button>
+
+                        <ul class="dropdown-menu pull-right" role="menu">
+
+                            <li>
+                                <a href="#">Action</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#">Another action</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#">Something else here</a>
+
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="#">Separated link</a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- /.panel-heading -->
+
+            <div class="panel-body">
+
+                <div style="height: 400px;" id="container"></div>
+
+            </div>
+
+            <!-- /.panel-body -->
+
+        </div>
+
+        <!-- /.panel -->
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+                <i class="fa fa-bar-chart-o fa-fw"></i> Spot Availability
+
+            </div>
+
+            <!-- /.panel-heading -->
+
+            <div class="panel-body">
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+
+                        <ul id="progressbars">
+
+                            <!-- /.cool stuff here-->
+
+
+
+                        </ul>
+
+                    </div>
+
+                    <!-- /.col-lg-4 (nested) -->
+                    <!-- /.col-lg-8 (nested) -->
+
+                </div>
+
+                <!-- /.row -->
+
+            </div>
+
+            <!-- /.panel-body -->
+
+        </div>
+
+        <!-- /.panel -->
+        <!-- /.panel -->
+
+    </div>
+
+    <!-- /.col-lg-8 -->
+
+</div>
+
+<!-- /.col-lg-4 -->
+<!-- /.row -->
+
+<script>
+    var myChart = Highcharts.chart('container', {
+        chart: {
+            events: {
+                load: function () {
+                    var series = this.series;
+                    function updateFunc() {
+                        var data = updateData();
+                        for (i = 0; i < series.length; i++) {
+                            series[i].addPoint(data[i]['data'], true, true, true);
+                        }
+                    }
+                    setInterval(updateFunc, 1000);
+                }
+            }
+        },
+        title: {
+
+            text: ''
+
+        },
+        series: requestData()
+    });
+
+
+    function requestData() {
+        lot1 = {
+            'name': 'Lot 1',
+            'data': [...Array(100).keys()]
+        };
+
+        lot2 = {
+            'name': 'Lot 2',
+            'data': [...Array(100).keys()].map(i => i + 10)
+        }
+
+        return [lot1, lot2];
+    }
+
+    function updateData() {
+
+        lot1 = {
+            'name': 'Lot 1',
+            'data': 5
+        }
+        lot2 = {
+            'name': 'Lot2',
+            'data': 15
+        }
+        return [lot1, lot2];
+    }
+</script>
 

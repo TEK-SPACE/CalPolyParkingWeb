@@ -19,8 +19,6 @@
     <Content Include="wwwroot\images\parkix.png" />
     <Content Include="wwwroot\js\metisMenu.js" />
     <Content Include="wwwroot\js\metisMenu.min.js" />
-    <Content Include="wwwroot\js\site - Copy.js" />
-    <Content Include="wwwroot\js\site - Copy.min.js" />
     <Content Include="wwwroot\js\site.js" />
     <Content Include="wwwroot\js\site.min.js" />
   </ItemGroup>
