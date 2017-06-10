@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parkix.Process", "ParkixProcess\Parkix.Process.csproj", "{A342A8F9-0D7C-4A38-ABFE-357E27559CBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parkix.Process", "ParkixProcess\Parkix.Process.csproj", "{A342A8F9-0D7C-4A38-ABFE-357E27559CBA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parkix.Tests", "ParkixTests\Parkix.Tests.csproj", "{E2FB46CE-E479-4DBD-BC94-6403C9B0BEE6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parkix.Tests", "ParkixTests\Parkix.Tests.csproj", "{E2FB46CE-E479-4DBD-BC94-6403C9B0BEE6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parkix.CurrentSensor", "ParkixCurrentSensor\Parkix.CurrentSensor.csproj", "{DCEBB4B2-88A5-41F6-836C-B66D8005F5B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parkix.CurrentSensor", "ParkixCurrentSensor\Parkix.CurrentSensor.csproj", "{DCEBB4B2-88A5-41F6-836C-B66D8005F5B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parkix.Shared", "ParkixShared\Parkix.Shared.csproj", "{5E4C765F-1E43-4B2F-95AA-8C46ACDE0F17}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parkix.Shared", "ParkixShared\Parkix.Shared.csproj", "{5E4C765F-1E43-4B2F-95AA-8C46ACDE0F17}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parkix.Report", "ParkixReport\Parkix.Report.csproj", "{737790B6-917C-4DC1-BEE1-636FDD97BBAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parkix.Report", "ParkixReport\Parkix.Report.csproj", "{737790B6-917C-4DC1-BEE1-636FDD97BBAF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parkix.Configure", "ParkixConfigure\Parkix.Configure.csproj", "{39819404-2D61-4715-953B-8CF13ECC551A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parkix.Configure", "ParkixConfigure\Parkix.Configure.csproj", "{39819404-2D61-4715-953B-8CF13ECC551A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parkix.UI", "ParkixUI\Parkix.UI.csproj", "{E24B0A32-8C94-4580-ACB7-635A852EB603}"
 EndProject
