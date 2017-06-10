@@ -1,0 +1,24 @@
+
+<svg width="443px" height="196px" viewBox="0 0 443 196" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="101.999998%" y2="100.999999%" id="linearGradient-1">
+            <stop stop-color="#3023AE" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#C96DD8" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="98.5511001%" id="linearGradient-2">
+            <stop stop-color="#1400FF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#0064FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-746.000000, -274.000000)">
+            <path d="M846.263573,324.5 L746.948504,469.5 L860.736427,469.5 L960.051496,324.5 L846.263573,324.5 Z" id="Rectangle-2" stroke="#000000"></path>
+            <path d="M960.263573,324.5 L860.948504,469.5 L974.736427,469.5 L1074.0515,324.5 L960.263573,324.5 Z" id="Rectangle-2" stroke="#000000"></path>
+            <polygon id="Rectangle-2" fill="url(#linearGradient-1)" points="960 301 1075 301 975 447 860 447"></polygon>
+            <polygon id="Rectangle-2" fill="url(#linearGradient-2)" points="960 274 1075 274 975 420 860 420"></polygon>
+            <path d="M1074.26357,324.5 L974.948504,469.5 L1088.73643,469.5 L1188.0515,324.5 L1074.26357,324.5 Z" id="Rectangle-2" stroke="#000000"></path>
+        </g>
+    </g>
+</svg>

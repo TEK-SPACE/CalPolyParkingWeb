@@ -1,0 +1,14 @@
+
+<svg width="263px" height="226px" viewBox="0 0 263 226" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-596.000000, -941.000000)">
+            <g id="ic_settings_backup_restore_black_48px" transform="translate(596.000000, 904.000000)">
+                <polygon id="Shape" points="0 0 300 0 300 300 0 300"></polygon>
+                <path d="M175,150 C175,136.25 163.75,125 150,125 C136.25,125 125,136.25 125,150 C125,163.75 136.25,175 150,175 C163.75,175 175,163.75 175,150 Z M150,37.5 C87.875,37.5 37.5,87.875 37.5,150 L0,150 L50,200 L100,150 L62.5,150 C62.5,101.625 101.625,62.5 150,62.5 C198.375,62.5 237.5,101.625 237.5,150 C237.5,198.375 198.375,237.5 150,237.5 C131.125,237.5 113.625,231.375 99.25,221.25 L81.5,239.25 C100.5,253.75 124.25,262.5 150,262.5 C212.125,262.5 262.5,212.125 262.5,150 C262.5,87.875 212.125,37.5 150,37.5 Z" id="Shape" fill="#4A4A4A" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
