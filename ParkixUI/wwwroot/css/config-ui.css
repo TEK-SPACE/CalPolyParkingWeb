@@ -1,0 +1,21 @@
+﻿label > .vertical {
+    display: block;
+}
+
+#saveButton {
+    background-color: green;
+}
+
+#sendButton {
+    background-color: #337ab7;
+}
+
+.move-element {
+    position: fixed;
+}
+
+@media only screen and (max-width: 1700px) {
+    .move-element {
+        position: static !important;
+    }
+}

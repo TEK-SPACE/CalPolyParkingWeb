@@ -2,37 +2,59 @@
 @{
     ViewData["Title"] = "Config";
 }
+<head>
+	<script src="~/js/jquery.min.js"></script>
 
+    <script src="~/js/jquery.Jcrop.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/css/jquery.Jcrop.css" type="text/css" />
+        <link rel="stylesheet" href="~/css/config-ui.css" type="text/css" />
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/js/bootstrap.min.js"></script>
+	
+</head>
 <h2>Configure - @ViewData["id"]</h2>
 
 <div class="container-fluid">
 
     <div class="row">
 
-        <div class="col-lg-12">
+        <div class="col-lg-9">
 
             <div id="adminimage">
 
                 <img src="@ViewData["image"]" id="target" style="width: 960; height: 1280" />
 
             </div>
-            <div class="form-group">
-            <div class="inline-labels" style="padding-top: 10px;">
-
-                <label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
-
-                <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
-
-                <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
-
-                <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
-
-                <label>W <input type="text" size="4" id="w" name="w" /></label>
-
-                <label>H <input type="text" size="4" id="h" name="h" /></label>
-
+        </div>
+		<div class="col-lg-2">
+			<div class="form-group move-element">
+            <div>
+            <div class = "vertical-group">
+                <label">X1 
+                        <input type="text" size="4" id="x1" name="x1" />
+                </label>
+                <label>Y1 
+                    <input type="text" size="4" id="y1" name="y1" />
+                </label>
+            </div>
+            <div class="vertical-group">
+                <label>X2 
+                        <input type="text" size="4" id="x2" name="x2" />
+                </label>
+                <label>Y2 
+                        <input type="text" size="4" id="y2" name="y2" />
+                </label>
+            </div>
+            <div class="vertical-group">
+                <label>W 
+                        <input type="text" size="4" id="w" name="w" />
+                </label>
+                <label>H 
+                        <input type="text" size="4" id="h" name="h" />
+                </label>
+            </div>
                 <button type="button" id="saveButton" class="btn btn-primary">Save</button>
-
                 <button type="button" id="sendButton" class="btn btn-primary">Send All Points</button>
 
             </div>
@@ -48,9 +70,15 @@
 </div>
 
 <script type="text/javascript">
+	
+	function getUrlVars() {
+            var vars = [], hash; var hashes = window.location.href.slice(window.location.href.indexOf('?') +
+                1).split('&'); for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('='); vars.push(hash[0]); vars[hash[0]] = hash[1];
+                } return vars;
+        }
 
     $(document).ready(function() {
-
                 $( "#saveButton" ).click(function() {
                     var coord = new coordinates($('#x1').val(), $('#x2').val(), $('#y1').val(), $('#y2').val())
                     spotsArray.push(new Spot(spotCt, coord));
@@ -137,6 +165,6 @@
     {
         $('#coords input').val('');
     };
-
+});
 </script>
 
