@@ -45,4 +45,7 @@
     <ProjectReference Include="..\ParkixShared\Parkix.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\css\components\" />
+  </ItemGroup>
 </Project>
