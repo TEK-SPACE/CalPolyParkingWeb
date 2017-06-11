@@ -3,4 +3,54 @@
     ViewData["Title"] = "Home Page";
 }
 
-Empty home page (for later inclusion)
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PARKIX</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/style-landing.css">
+    <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      
+      <!--hero-->
+      <div class="row hero">
+        <div class="col-md-7">
+          <img id="hero-logo" src="~/images/landing-logo.svg">
+          <h1 id="hero-text">We leverage machine learning to gain
+insight on parking infrastructure.</h1>
+        </div>
+        <div class="col-md-5">
+          <img id="hero-img" src="~/images/landing-hero-img.svg">
+        </div>
+      </div>
+      <!-- features -->
+      <div class="row">
+        <div class="col-md-4 icon">
+          <img class="material" src="~/images/landing-graph.svg">
+          <h2>Historical Data</h2>
+          <p>Data is securely stored on the cloud for easy access through the Parkix administrative UI.  Each data point is capable of giving parking occupancy at any time of the day and display information such as weather.</p>
+        </div>
+         <div class="col-md-4 icon">
+           <img class="material" src="~/images/landing-backup.svg">
+           <h2>Parking Analytics</h2>
+           <p>Historical data of parking occupancy can be placed in different statistical models, predicting parking occupancy on campus for clients to act on.</p>
+        </div>
+         <div class="col-md-4 icon">
+           <img class="material" src="~/images/landing-car.svg">
+           <h2>Parking Enforcement</h2>
+           <p>Using licence plate recognition API’s, unregistered license plates can be recognized and the proper authorities will be notified for action.</p>
+        </div>
+      </div>
+      
+      <div class="row arch">
+        <img id="arch" src="~/images/landing-arch.svg">
+      </div>
+      
+      
+    </div>
+    
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>

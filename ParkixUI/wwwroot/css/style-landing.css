@@ -1,0 +1,44 @@
+body {
+  font-family: 'Karla', sans-serif;
+}
+
+#hero-logo {
+  height: 50px;
+  margin-top: 30%;
+}
+
+#hero-text {
+  margin-bottom: 10%;
+  font-size: 24px;
+}
+
+#hero-img {  
+  margin-top: 30%;
+  margin-bottom: 10%;
+}
+
+p {
+  font-size: 18px;
+  color: #9B9B9B;
+}
+
+.icon {
+  margin-top: 150px;
+  text-align: center;
+}
+
+.material {
+  height: 100px;
+}
+
+.arch {
+  margin-top: 150px;
+  margin-bottom: 150px;
+  text-align: center;
+}
+
+#arch {
+  margin: auto;
+  padding: 10px;
+  max-width: 100%;
+}

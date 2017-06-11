@@ -1,0 +1,76 @@
+
+<svg width="829px" height="574px" viewBox="0 0 829 574" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-Copy" transform="translate(-360.000000, -237.000000)">
+            <path d="M712.5,734.5 L791.601201,734.5" id="Line" stroke="#979797" stroke-width="3" stroke-linecap="square"></path>
+            <text id="1" font-family="Karla-Regular, Karla" font-size="150" font-weight="normal" fill="#9B9B9B">
+                <tspan x="400" y="528">1</tspan>
+            </text>
+            <text id="2" font-family="Karla-Regular, Karla" font-size="150" font-weight="normal" fill="#9B9B9B">
+                <tspan x="618" y="333">2</tspan>
+            </text>
+            <text id="3" font-family="Karla-Regular, Karla" font-size="150" font-weight="normal" fill="#9B9B9B">
+                <tspan x="991" y="540">3</tspan>
+            </text>
+            <g id="Group-3" transform="translate(622.000000, 700.000000)">
+                <g id="ic_local_parking_black_48px" transform="translate(26.000000, 0.000000)">
+                    <polygon id="Shape" points="0 0 83 0 83 83 0 83"></polygon>
+                    <path d="M44.9583333,10.375 L20.75,10.375 L20.75,72.625 L34.5833333,72.625 L34.5833333,51.875 L44.9583333,51.875 C56.4054167,51.875 65.7083333,42.5720833 65.7083333,31.125 C65.7083333,19.6779167 56.4054167,10.375 44.9583333,10.375 Z M45.65,38.0416667 L34.5833333,38.0416667 L34.5833333,24.2083333 L45.65,24.2083333 C49.4541667,24.2083333 52.5666667,27.3208333 52.5666667,31.125 C52.5666667,34.9291667 49.4541667,38.0416667 45.65,38.0416667 Z" id="Shape" fill="#FF5C5C" fill-rule="nonzero"></path>
+                </g>
+                <text id="Parking-Lot" font-family="Karla-Regular, Karla" font-size="24" font-weight="normal" fill="#000000">
+                    <tspan x="0" y="105">Parking Lot</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(661.000000, 252.000000)">
+                <g id="ic_supervisor_account_black_48px">
+                    <polygon id="Shape" points="0 0 119 0 119 119 0 119"></polygon>
+                    <path d="M81.8125,59.5 C88.655,59.5 94.15875,53.9466667 94.15875,47.1041667 C94.15875,40.2616667 88.655,34.7083333 81.8125,34.7083333 C74.97,34.7083333 69.4166667,40.2616667 69.4166667,47.1041667 C69.4166667,53.9466667 74.97,59.5 81.8125,59.5 Z M44.625,54.5416667 C52.8558333,54.5416667 59.4504167,47.8975 59.4504167,39.6666667 C59.4504167,31.4358333 52.8558333,24.7916667 44.625,24.7916667 C36.3941667,24.7916667 29.75,31.4358333 29.75,39.6666667 C29.75,47.8975 36.3941667,54.5416667 44.625,54.5416667 Z M81.8125,69.4166667 C72.73875,69.4166667 54.5416667,73.9783333 54.5416667,83.0520833 L54.5416667,94.2083333 L109.083333,94.2083333 L109.083333,83.0520833 C109.083333,73.9783333 90.88625,69.4166667 81.8125,69.4166667 Z M44.625,64.4583333 C33.0720833,64.4583333 9.91666667,70.2595833 9.91666667,81.8125 L9.91666667,94.2083333 L44.625,94.2083333 L44.625,83.0520833 C44.625,78.8375 46.26125,71.4495833 56.37625,65.8466667 C52.0625,64.9541667 47.8975,64.4583333 44.625,64.4583333 Z" id="Shape" fill="#FFB04E" fill-rule="nonzero"></path>
+                </g>
+                <text id="Understanding-Progre" font-family="Karla-Regular, Karla" font-size="24" font-weight="normal" fill="#000000">
+                    <tspan x="122" y="50">Understanding</tspan>
+                    <tspan x="122" y="78">Progress to Goals</tspan>
+                </text>
+            </g>
+            <g id="Group-4" transform="translate(358.000000, 448.000000)">
+                <g id="ic_person_black_48px" transform="translate(41.000000, 0.000000)">
+                    <path d="M51.5,51.5 C60.9845833,51.5 68.6666667,43.8179167 68.6666667,34.3333333 C68.6666667,24.84875 60.9845833,17.1666667 51.5,17.1666667 C42.0154167,17.1666667 34.3333333,24.84875 34.3333333,34.3333333 C34.3333333,43.8179167 42.0154167,51.5 51.5,51.5 Z M51.5,60.0833333 C40.04125,60.0833333 17.1666667,65.8341667 17.1666667,77.25 L17.1666667,85.8333333 L85.8333333,85.8333333 L85.8333333,77.25 C85.8333333,65.8341667 62.95875,60.0833333 51.5,60.0833333 Z" id="Shape" fill="#499DFF" fill-rule="nonzero"></path>
+                    <polygon id="Shape" points="0 0 103 0 103 103 0 103"></polygon>
+                </g>
+                <text id="Reporting-on-Usage" font-family="Karla-Regular, Karla" font-size="24" font-weight="normal" fill="#4A4A4A">
+                    <tspan x="0" y="125">Reporting on Usage</tspan>
+                </text>
+            </g>
+            <g id="Group" transform="translate(959.000000, 448.000000)">
+                <g id="ic_person_black_48px" transform="translate(54.000000, 0.000000)">
+                    <path d="M59.5,64.898374 C70.4579167,64.898374 79.3333333,55.2176999 79.3333333,43.2655827 C79.3333333,31.3134654 70.4579167,21.6327913 59.5,21.6327913 C48.5420833,21.6327913 39.6666667,31.3134654 39.6666667,43.2655827 C39.6666667,55.2176999 48.5420833,64.898374 59.5,64.898374 Z M59.5,75.7147696 C46.26125,75.7147696 19.8333333,82.9617547 19.8333333,97.347561 L19.8333333,108.163957 L99.1666667,108.163957 L99.1666667,97.347561 C99.1666667,82.9617547 72.73875,75.7147696 59.5,75.7147696 Z" id="Shape" fill="#67D45C" fill-rule="nonzero"></path>
+                    <polygon id="Shape" points="0 0 119 0 119 129.796748 0 129.796748"></polygon>
+                </g>
+                <text id="Student-Finds-a-Spot" font-family="Karla-Regular, Karla" font-size="24" font-weight="normal" fill="#000000">
+                    <tspan x="0" y="152">Student Finds a Spot</tspan>
+                </text>
+                <text id="CP" font-family="Karla-Bold, Karla" font-size="24" font-weight="bold" fill="#FFFFFF">
+                    <tspan x="100" y="102">CP</tspan>
+                </text>
+            </g>
+            <rect id="Rectangle-3" stroke="#979797" stroke-width="3" x="793.5" y="718.5" width="126" height="30"></rect>
+            <text id="Sensor" font-family="Karla-Regular, Karla" font-size="18" font-weight="normal" fill="#4A4A4A">
+                <tspan x="828" y="739">Sensor</tspan>
+            </text>
+            <text id="PARKIX" font-family="Karla-Regular, Karla" font-size="18" font-weight="normal" line-spacing="22" letter-spacing="6.80000019" fill="#0076FF">
+                <tspan x="699" y="528">PARKI</tspan>
+                <tspan x="779.674001" y="528">X</tspan>
+            </text>
+            <path d="M764.5,565.5 L853.5,712.5" id="Line" stroke="#979797" stroke-width="3" stroke-linecap="square" stroke-dasharray="3,2,3,2"></path>
+            <g id="ic_cloud_black_48px" transform="translate(679.000000, 467.000000)">
+                <polygon id="Shape" points="0 70 24 70 24 94 0 94"></polygon>
+                <path d="M108.84375,33.975 C105.01875,14.56875 87.975,0 67.5,0 C51.24375,0 37.125,9.225 30.09375,22.725 C13.1625,24.525 0,38.86875 0,56.25 C0,74.86875 15.13125,90 33.75,90 L106.875,90 C122.4,90 135,77.4 135,61.875 C135,47.025 123.46875,34.9875 108.84375,33.975 Z" id="Shape" stroke="#C6E0FF" stroke-width="3" fill-rule="nonzero"></path>
+            </g>
+            <path d="M671.5,522.5 L490.497238,522.5" id="Line" stroke="#979797" stroke-width="3" stroke-linecap="square"></path>
+            <path d="M994.5,523.5 L818.497238,523.5" id="Line" stroke="#979797" stroke-width="3" stroke-linecap="square"></path>
+            <path d="M743.5,460.5 L743.5,356.495192" id="Line" stroke="#979797" stroke-width="3" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>
