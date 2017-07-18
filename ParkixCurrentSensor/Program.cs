@@ -31,7 +31,6 @@ namespace Parkix.CurrentSensor
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
 
             Initialize();

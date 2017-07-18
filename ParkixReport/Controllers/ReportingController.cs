@@ -1,22 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-
-using Parkix.Process.Entities.Parking;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json.Converters;
-using Parkix.Shared.Services;
 using Parkix.Report.Services;
 using Parkix.Shared.Entities.Parking;
+using Parkix.Shared.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace Parkix.Report.Controllers
 {
-    
+
     /// <summary>
     /// Report system status
     /// </summary>
@@ -25,9 +17,10 @@ namespace Parkix.Report.Controllers
     public class ReportingController : Controller
     {
         /// <summary>
-        /// Gets a list of the available parking lots.
+        /// Gets the latest .
         /// </summary>
         /// <param name="authorization"></param>
+        /// <param name="lotid"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("lot/{lotid}/latest")]
@@ -51,18 +44,63 @@ namespace Parkix.Report.Controllers
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ProcessingController", e);
+                PseudoLoggingService.Log("ReportingController", e);
             }
 
             return new StatusCodeResult(500);
+        }
 
-            return StatusCode(statusCode: 500);
+        /// <summary>
+        /// Gets the historial lot data.
+        /// </summary>
+        /// <param name="authorization">The authorization.</param>
+        /// <param name="lotid">The lotid.</param>
+        /// <param name="start">The starttime.</param>
+        /// <param name="end">The endtime.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("lot/{lotid}/historical")]
+        public async Task<IActionResult> GetHistorialLotData([FromHeader] string authorization, string lotid, string start, string end)
+        {
+            try
+            {
+                var validToken = await AuthenticationService.Instance.ValidateToken(authorization);
+                if (!validToken)
+                {
+                    return Unauthorized();
+                }
+
+                DateTime startDateTime = DateTime.Parse(start);
+                DateTime endDateTime = DateTime.Parse(end);
+
+                var available = ReportingService.Instance.GetHistoricalParkingLotPercentFull(lotid, startDateTime, endDateTime, out var data);
+                if (!available)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(data);
+                }
+            }
+            catch (FormatException e)
+            {
+                PseudoLoggingService.Log("ReportingController", e);
+                return BadRequest("Invalid datetime format.");
+            }
+            catch (Exception e)
+            {
+                PseudoLoggingService.Log("ReportingController", e);
+            }
+
+            return new StatusCodeResult(500);
         }
 
         /// <summary>
         /// Gets a prediction of tomorrow's parking situation.
         /// </summary>
         /// <param name="authorization"></param>
+        /// <param name="lotid"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("lot/{lotid}/predict/tomorrow")]
@@ -88,7 +126,7 @@ namespace Parkix.Report.Controllers
             }
             catch (Exception e)
             {
-                PseudoLoggingService.Log("ProcessingController", e);
+                PseudoLoggingService.Log("ReportingController", e);
             }
 
             return new StatusCodeResult(500);

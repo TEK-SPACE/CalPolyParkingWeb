@@ -32,7 +32,6 @@ namespace Parkix.Process
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
 
             Initialize();
@@ -47,7 +46,7 @@ namespace Parkix.Process
             try
             {
                 await AuthenticationService.Instance.Initialize(ReportSettings.PredixUaaClientID, ReportSettings.PredixUaaClientSecret);
-                //await ProcessingService.Instance.Initialize(ProcessEnvironmentalService.HistoricalDatabase);
+                await ReportingService.Instance.Initialize(ReportEnvironmentalService.HistoricalDatabase);
                 await SystemService.Instance.Initialize(ReportEnvironmentalService.SystemDatabase);
                 PseudoLoggingService.Log("Application", "Initialization Completed. System Ready.");
             }

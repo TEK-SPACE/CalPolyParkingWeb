@@ -141,7 +141,6 @@ namespace Parkix.CurrentSensor.Services
             }
 
             PseudoLoggingService.Log("IeParkingIngestService", deviceid + " Websocket closed:" + socket.State);
-
         }
         
 

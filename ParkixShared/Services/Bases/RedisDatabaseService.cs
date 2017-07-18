@@ -38,7 +38,6 @@ namespace Parkix.Shared.Services
             };
 
             _redis = await ConnectionMultiplexer.ConnectAsync(config);
-
             PseudoLoggingService.Log(service.Name, "DB connection status: " + _redis.IsConnected.ToString());
         }
 
@@ -52,17 +51,23 @@ namespace Parkix.Shared.Services
         {
             PseudoLoggingService.Log("RedisDatabaseService", "Getting key: " + key);
 
+            PseudoLoggingService.Log("RedisDatabaseService", "Getting database...");
             IDatabase db = _redis.GetDatabase();
+            PseudoLoggingService.Log("RedisDatabaseService", "Getting string data...");
             var data = db.StringGet(key: key);
 
+            PseudoLoggingService.Log("RedisDatabaseService", "Checking for data...");
             if (data.HasValue)
             {
+                PseudoLoggingService.Log("RedisDatabaseService", "...data found.");
                 value = JsonConvert.DeserializeObject<T>(data);
                 return true;
             }
             else
             {
+                PseudoLoggingService.Log("RedisDatabaseService", "...data nonexistent...");
                 value = default(T);
+                PseudoLoggingService.Log("RedisDatabaseService", "...returning default...");
                 return false;
             }
         }

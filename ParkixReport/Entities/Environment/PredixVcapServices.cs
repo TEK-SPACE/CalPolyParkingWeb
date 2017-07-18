@@ -1,12 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Parkix.Shared.Entities.Redis;
+using Parkix.Shared.Entities.Uaa;
 using System.Collections.Generic;
-using System.Text;
-
-using Newtonsoft.Json;
-
-using Parkix.Process.Entities.Timeseries;
-using Parkix.Process.Entities.Uaa;
-using Parkix.Process.Entities.Redis;
 
 namespace Parkix.Process.Entities.Environment
 {
@@ -32,15 +27,6 @@ namespace Parkix.Process.Entities.Environment
         /// </value>
         [JsonProperty("predix-uaa")]
         public List<PredixUaaService> PredixUaa { get; set; }
-
-        /// <summary>
-        /// Gets or sets the predix time series.
-        /// </summary>
-        /// <value>
-        /// The predix time series.
-        /// </value>
-        [JsonProperty("predix-timeseries")]
-        public List<PredixTimeseriesService> PredixTimeSeries { get; set; }
 
         /// <summary>
         /// Gets or sets the redis11.

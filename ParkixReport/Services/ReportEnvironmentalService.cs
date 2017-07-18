@@ -10,8 +10,14 @@ using Parkix.Shared;
 
 namespace Parkix.Report.Services
 {
+    /// <summary>
+    /// Environmental service for reporting instance.
+    /// </summary>
     public class ReportEnvironmentalService : CommonEnvironmentalService<CommonPredixVcapServices>
     {
+        /// <summary>
+        /// System Database.
+        /// </summary>
         public static RedisService SystemDatabase
         {
             get
@@ -29,6 +35,9 @@ namespace Parkix.Report.Services
             }
         }
 
+        /// <summary>
+        /// Historical data database reference.
+        /// </summary>
         public static RedisService HistoricalDatabase
         {
             get

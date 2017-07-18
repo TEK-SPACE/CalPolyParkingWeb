@@ -5,9 +5,17 @@ using System.Threading.Tasks;
 
 namespace Parkix.Report
 {
-
+    /// <summary>
+    /// Simulate parking behaviors.
+    /// </summary>
     public class SimulationHelpers
     {
+        /// <summary>
+        /// Sinusoidal simulation with noise.
+        /// </summary>
+        /// <param name="amplitude"></param>
+        /// <param name="maxRandom"></param>
+        /// <returns></returns>
         public static double[] SimulationOne(int amplitude, int maxRandom = 0)
         {
             var data = new double[288];

@@ -1,5 +1,5 @@
-ParkixConfigure/
-ParkixProcess/
-ParkixCurrentSensor/
-ParkixReport/
 ParkixTests/
+#ParkixUI/
+ParkixProcess/
+ParkixConfigure/
+ParkixCurrentSensor/

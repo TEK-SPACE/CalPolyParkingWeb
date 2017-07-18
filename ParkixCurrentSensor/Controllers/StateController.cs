@@ -23,6 +23,7 @@ namespace Parkix.CurrentSensor.Controllers
         /// Puts the state of the sensor.
         /// </summary>
         /// <param name="state">The state.</param>
+        /// <param name="password"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("set")]

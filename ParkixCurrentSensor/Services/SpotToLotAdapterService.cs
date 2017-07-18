@@ -10,6 +10,9 @@ using Parkix.Shared.Services;
 
 namespace Parkix.CurrentSensor.Services
 {
+    /// <summary>
+    /// Adapts individual spots to a parking lot model.
+    /// </summary>
     public class SpotToLotAdapterService
     {
         private Dictionary<string, bool> _parkingLot = new Dictionary<string, bool>();

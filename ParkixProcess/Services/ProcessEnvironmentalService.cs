@@ -10,8 +10,18 @@ using Parkix.Shared;
 
 namespace Parkix.Process.Services
 {
+    /// <summary>
+    /// Environmental variables for process instance.
+    /// </summary>
     public class ProcessEnvironmentalService : CommonEnvironmentalService<CommonPredixVcapServices>
     {
+        /// <summary>
+        /// Gets the system database.
+        /// </summary>
+        /// <value>
+        /// The system database.
+        /// </value>
+        /// <exception cref="EnvironmentalException"></exception>
         public static RedisService SystemDatabase
         {
             get
@@ -29,6 +39,13 @@ namespace Parkix.Process.Services
             }
         }
 
+        /// <summary>
+        /// Gets the historical database.
+        /// </summary>
+        /// <value>
+        /// The historical database.
+        /// </value>
+        /// <exception cref="EnvironmentalException"></exception>
         public static RedisService HistoricalDatabase
         {
             get
