@@ -106,6 +106,7 @@ namespace Parkix.Report.Controllers
         [Route("lot/{lotid}/predict/tomorrow")]
         public async Task<IActionResult> GetTommorrowLotPrediction([FromHeader] string authorization, string lotid)
         {
+            //using a fake function for now, Joel is working on real prediction engine.
             var datfsdfa = SimulationHelpers.SimulationOne(20, maxRandom: 5);
 
             return Ok(datfsdfa);

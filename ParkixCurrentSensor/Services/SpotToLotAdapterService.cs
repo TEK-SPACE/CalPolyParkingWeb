@@ -87,7 +87,9 @@ namespace Parkix.CurrentSensor.Services
         }
 
         /// <summary>
-        /// Sets the state.
+        /// Sets the state of the instance's parking lot.
+        /// Used mostly for debugging / state restoration.
+        /// TODO: convert to database call.
         /// </summary>
         /// <param name="state">The state.</param>
         public void SetState(Dictionary<string, bool> state)
@@ -99,9 +101,11 @@ namespace Parkix.CurrentSensor.Services
         }
 
         /// <summary>
-        /// Gets the state.
+        /// Gets the state of the instance's parking lot.
+        /// Used mostly for debugging / state restoration.
+        /// TODO: convert to database call.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a dictionary of the current status.</returns>
         public Dictionary<string, bool> GetState()
         {
             return _parkingLot;

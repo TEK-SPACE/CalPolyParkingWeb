@@ -24,9 +24,20 @@ namespace Parkix.CurrentSensor.Services
         /// The instance of the Intelligent Environment Parking ingest service interface.
         /// </summary>
         public static IeParkingIngestService Instance { get; } = new IeParkingIngestService();
+
+        /// <summary>
+        /// Keeps references to async websocket ingestion tasks.
+        /// </summary>
         private ConcurrentDictionary<string, Tuple<ClientWebSocket, Task>> _sockets = new ConcurrentDictionary<string, Tuple<ClientWebSocket, Task>>();
+
+        /// <summary>
+        /// The available assets polled from Intelligent Cities.
+        /// </summary>
         private List<PredixIeParkingAsset> _availableAssets;
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="IeParkingIngestService"/> class from being created.
+        /// </summary>
         private IeParkingIngestService()
         {
         }
@@ -45,6 +56,8 @@ namespace Parkix.CurrentSensor.Services
             foreach (string asset in list)
             {
                 PseudoLoggingService.Log("IEParking", asset);
+
+                //open the connection to each found asset
                 await IeParkingIngestService.Instance.OpenConnection(asset);
             }
         }
@@ -59,9 +72,11 @@ namespace Parkix.CurrentSensor.Services
         /// <returns></returns>
         public async Task<List<string>> FindAssets(double latitudeOne, double longitudeOne, double latitudeTwo, double longitudeTwo)
         {
+            //build request for vehicle I/O assets within the given coords
             var request = CurrentSensorEnvironmentalService.IeParkingService.Credentials.Url + "/v1/assets/search?";
             request += "size=100&event-type=PKIN,PKOUT&bbox=" + latitudeOne + ":" + longitudeOne + ", " + latitudeTwo + ":" + longitudeTwo;
 
+            //request headers.
             var headers = new Dictionary<string, string>()
             {
                 {"predix-zone-id", CurrentSensorEnvironmentalService.IeParkingService.Credentials.Zone.HttpHeaderValue},
@@ -71,8 +86,10 @@ namespace Parkix.CurrentSensor.Services
             var result = await ServiceHelpers.SendAync<PredixIeParkingAssetSearchResult>(HttpMethod.Get, service: request,
                 request: "", methodName: "", headers: headers);
 
+            //save results of search, which includes websocket address.
             _availableAssets = result.Embedded.Assets;
 
+            //get the id's of the assets.
             List<string> ids = _availableAssets.Select((asset => asset.DeviceId)).ToList();
             return ids;
         }
@@ -100,9 +117,11 @@ namespace Parkix.CurrentSensor.Services
                 await socket.ConnectAsync(uri, cancellationToken: CancellationToken.None);
                 PseudoLoggingService.Log("IeParkingIngestService", deviceid + " Websocket status: " + socket.State.ToString());
 
+                //if websocket was successfully opened, create the ingestion task and keep a reference to it.
                 if (socket.State == WebSocketState.Open)
                 {
-                    _sockets[deviceid] = new Tuple<ClientWebSocket, Task>(socket, IngestLoop(deviceid: deviceid, socket: socket));
+                    Task ingestTask = IngestLoop(deviceid: deviceid, socket: socket);
+                    _sockets[deviceid] = new Tuple<ClientWebSocket, Task>(socket, ingestTask);
                 }
             }
             catch (Exception e)
@@ -111,6 +130,12 @@ namespace Parkix.CurrentSensor.Services
             }
         }
 
+        /// <summary>
+        /// Creates a task to monitor the provided websocket for parking events.
+        /// </summary>
+        /// <param name="deviceid">The deviceid.</param>
+        /// <param name="socket">The socket.</param>
+        /// <returns></returns>
         private async Task IngestLoop(string deviceid, ClientWebSocket socket)
         {
             ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[1024]);
@@ -139,6 +164,8 @@ namespace Parkix.CurrentSensor.Services
                     PseudoLoggingService.Log("IeParkingIngestService", e);
                 }
             }
+
+            //handle socket renegotiation here?
 
             PseudoLoggingService.Log("IeParkingIngestService", deviceid + " Websocket closed:" + socket.State);
         }
